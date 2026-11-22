@@ -1,0 +1,856 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Kopay">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">60 - 89 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah-tinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <teksurDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksurDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 A</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8,7 - 14,5 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,2 - 5,3 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">36,788 - 57,509 cm²</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,1 -11,5 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 C</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 138 C</warnaPangkalTangkaiDaunBagbawah>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip (acute)</bentukUjungDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bersilang</kedudukanDaun>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155 A</warnaMahkota>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 2,5 cm</panjangMahkota>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 - 1,2 cm</lebarMahkotaBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5 - 7</jumlahMahkotaBunga>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">greyed-yellow group 160 B</warnaTangkaiPutik>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 - 0,6 cm</panjangPutik>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">black group 202 B</warnaKepalaSari>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155 A</warnaTangkaiSari>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,6 cm</panjangBenangsari>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 B</warnaGagangBunga>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,7 - 2,5 cm</panjangGagangBunga>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</jumlahGagangBunga>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBunga>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,2 - 0,5 cm</panjangKelopakBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 B</warnaKelopakBunga>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tetap melekat pada buah</kedudukanKelopakBunga>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8,2 - 11 cm</panjangBuahMuda>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,2 - 3,9 cm</kelilingBuahMuda>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,3 - 4,5 cm</panjangTangkaiBuahMuda>
+    <panjangKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,7 cm</panjangKelopakBuahMuda>
+    <kelilingKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3 - 3,6 cm</kelilingKelopakBuahMuda>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBuahMuda>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kapsul dengan kulit buah mulus</bentukBuah>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">grreen group 139 A</warnaBuahMuda>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">red group 40A</warnaBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMuda>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMasak>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3 - 4 cm</panjangTangkaiBuahMasak>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10,2 - 10,8 cm</panjangBuahMasak>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,2 - 5,3 cm</kelilingBuahMasak>
+    <panjangKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,6 - 0,8 cm</panjangKelopakBuahMasak>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,8 - 4 cm</kelilingKelopakBuahMasak>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tumpul</bentukUjungBuah>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-orange group 23 C</warnaBiji>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">43 - 96</jumlahBiji>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_Merah_Besar_Cili_Merah">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10Ð15 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3Ð5 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">30Ð60 cm2</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4Ð7 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau muda</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menyempit</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rata</tepiDaun>
+    <berasalDari rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#dataran_rendah"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">60Ð120 cm</TinggiTanaman>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Katokkon">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">60 - 155 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semi bertahunan</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah-tinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group  143 A</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10 -14,5 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5,6 - 11,2 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">137,016 - 165,396 cm²</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 -7 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">violet-blue group 89 C</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">violet-blue group 89 C</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">luncip (acuminate)</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">deltoid</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bersilang berhadapan</kedudukanDaun>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-green group 151 C</warnaMahkota>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,1 -1,5 cm</panjangMahkota>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,8 -1,2 cm</lebarMahkotaBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">05-Jun</jumlahMahkotaBunga>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">grey-white group 156 B</warnaTangkaiPutik>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,1 - 0,4 cm</panjangPutik>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">black group 202 B</warnaKepalaSari>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155  A</warnaTangkaiSari>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 cm</panjangBenangsari>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 138 B</warnaGagangBunga>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,5 - 2,7 cm</panjangGagangBunga>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">02-May</jumlahGagangBunga>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBunga>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,5 cm</panjangKelopakBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 141 C</warnaKelopakBunga>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tetap melekat pada buah</kedudukanKelopakBunga>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,5 - 3,8 cm</panjangBuahMuda>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8,7 - 8,9 cm</kelilingBuahMuda>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,9 - 3,6 cm</panjangTangkaiBuahMuda>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">united</bentukKelopakBuahMuda>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kapsul dengan kulit buah beralur</bentukBuah>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 140 B</warnaBuahMuda>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">red group 40 A</warnaBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">horizontal</posisiBuahMuda>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMasak>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 3,9 cm</panjangTangkaiBuahMasak>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5 - 6,5 cm</panjangBuahMasak>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8,7 - 13,8 cm</kelilingBuahMasak>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,8 - 1,5 cm</kelilingKelopakBuahMasak>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membulat</bentukUjungBuah>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-orange group 23 C</warnaBiji>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">22 -52</jumlahBiji>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_H">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 A</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">12,5 - 15,5 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6,8 - 9,2 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">55,149 - 100,992cm²</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,5 - 5,6 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 136 C</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 136 D</warnaPangkalTangkaiDaunBagbawah>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,6 - 0,8 cm</panjangMahkota>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 - 0,6 cm</lebarMahkotaBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4 - 5</jumlahMahkotaBunga>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,5 - 1,6 cm</panjangGagangBunga>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 - jarang yg 2 (2 pohon)</jumlahGagangBunga>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBunga>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,5 cm</panjangKelopakBunga>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Domba">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">50 - 77 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bertahunan/perennial</Umur>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 A</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10,8 - 15,8 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5,2 - 9 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">50,424 - 76,052 cm²</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3 - 4,7 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 136 C</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 136 D</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip (acute)</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bulat telur sungsang</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bersilang</kedudukanDaun>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow green group 150 D</warnaMahkota>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,6 - 0,9 cm</panjangMahkota>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,5 cm</lebarMahkotaBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</jumlahMahkotaBunga>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group N155 D</warnaTangkaiPutik>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,5 cm</panjangPutik>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">greyed-yellow group 162 D</warnaKepalaSari>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">red purple group 64 A</warnaTangkaiSari>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,6 cm</panjangBenangsari>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 D</warnaGagangBunga>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,4 - 2,3 cm</panjangGagangBunga>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1-2'</jumlahGagangBunga>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBunga>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,5 cm</panjangKelopakBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 D</warnaKelopakBunga>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tetap melekat pada buah</kedudukanKelopakBunga>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,4 - 3,3 cm</panjangBuahMuda>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,6 - 2,4 cm</kelilingBuahMuda>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,8 - 2,9 cm</panjangTangkaiBuahMuda>
+    <panjangKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,6 cm</panjangKelopakBuahMuda>
+    <kelilingKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,4 - 1,6 cm</kelilingKelopakBuahMuda>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBuahMuda>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kapsul pendek</bentukBuah>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green-yellow 1D</warnaBuahMuda>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Orange group N25 A, orange-red group N30 A</warnaBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBuahMuda>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBuahMasak>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,8 - 2,5 cm</panjangTangkaiBuahMasak>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,3 - 2,7 cm</panjangBuahMasak>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,6 - 2,4 cm</kelilingBuahMasak>
+    <panjangKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,5 cm</panjangKelopakBuahMasak>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,1 - 1,6 cm</kelilingKelopakBuahMasak>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tumpul</bentukUjungBuah>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-orange group 23D</warnaBiji>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jul-19</jumlahBiji>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Gendot">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <berasalDari rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Lombok"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">˃ 100 cm; 20 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bertahunan/perennial</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran tinggi ˃ 2000 m</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">berbulu</batang>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kapsul</bentukBuah>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membulat, membulat telur (ovate)</bentukDaun>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBuahMuda>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip (acute)</bentukPangkalDaun>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tumpul</bentukUjungBuah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">luncip (acuminate)</bentukUjungDaun>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8 - 71</jumlahBiji>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</jumlahGagangBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7</jumlahMahkotaBunga>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</kedudukanDaun>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</kedudukanKelopakBunga>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5  - </kelilingBuahMasak>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4 ,1</kelilingBuahMuda>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</kelilingKelopakBuahMasak>
+    <kelilingKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</kelilingKelopakBuahMuda>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7,5 cm</lebarDaun>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</lebarMahkotaBunga>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</luasDaun>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</panjangBenangsari>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">05-Sep</panjangBuahMasak>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5 1,</panjangBuahMuda>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11 - 12 cm</panjangDaun>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</panjangGagangBunga>
+    <panjangKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</panjangKelopakBuahMasak>
+    <panjangKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</panjangKelopakBuahMuda>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</panjangKelopakBunga>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</panjangMahkota>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</panjangPutik>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,5 - 3,3</panjangTangkaiBuahMasak>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</panjangTangkaiBuahMuda>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4 - 5 cm</panjangTangkaiDaun>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMuda>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBunga>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kasap</teksturDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow</warnaBiji>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">merah</warnaBuahMasak>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau - hijau dengan bercak ungu</warnaBuahMuda>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 139 B</warnaDaun>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ungu</warnaGagangBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ungu</warnaKelopakBunga>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ungu</warnaKepalaSari>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ungu</warnaMahkota>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unknown</warnaPangkalTangkaiDaunBagbawah>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ungu</warnaTangkaiPutik>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ungu</warnaTangkaiSari>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_rawit_NTB">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <berasalDari rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#NTB"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">45 - 94 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bertahunan/perennial</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah-tinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 B; gren group 137 A</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">12 -15,3 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7 - 7,8 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">60,163 - 151,596 cm²; 66,132 - 68,944 cm²</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4,5 - 7 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 B; green group 136  C</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 138 B; green group  136 D</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip (acute)</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bulat telur sungsang</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bersilang</kedudukanDaun>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 142 C; green group 138 B - C</warnaMahkota>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,6 - 1,1 cm</panjangMahkota>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,7 cm</lebarMahkotaBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">05-Jun</jumlahMahkotaBunga>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green white group 157 D; white group 155D</warnaTangkaiPutik>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,2 - 0,6 cm</panjangPutik>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">grey ed purple group N187 A; greyed purple group N 187 C; violet-blue group N89D</warnaKepalaSari>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">greyed-purple group 186 D; greyed yellow group 160 B; violet blue group 90 C</warnaTangkaiSari>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,6 cm</panjangBenangsari>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 141 C; green group 137 C</warnaGagangBunga>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 - 2,8 cm</panjangGagangBunga>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1; sangat jarang 2'</jumlahGagangBunga>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBunga>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,5 cm</panjangKelopakBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 141 C; green group 136 B</warnaKelopakBunga>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tetap melekat pada buah</kedudukanKelopakBunga>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,7 - 5,4 cm</panjangBuahMuda>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3 - 3,6 cm</kelilingBuahMuda>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,8 - 2,6 cm</panjangTangkaiBuahMuda>
+    <panjangKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,6  cm</panjangKelopakBuahMuda>
+    <kelilingKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,3 - 3 cm</kelilingKelopakBuahMuda>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBuahMuda>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kapsul pendek</bentukBuah>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow green group 145 B; yellow green group 150C - yellow green group 151C</warnaBuahMuda>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">red group 44A; orange group N25A</warnaBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBuahMuda>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tegak</posisiBuahMasak>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,2 - 2,7 cm</panjangTangkaiBuahMasak>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,3 - 4,4 cm</panjangBuahMasak>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,9 - 3,2 cm</kelilingBuahMasak>
+    <panjangKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,5 cm</panjangKelopakBuahMasak>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,3 - 2,4</kelilingKelopakBuahMasak>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tumpul</bentukUjungBuah>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-orange group 23 C</warnaBiji>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">33 - 58</jumlahBiji>
+    <unmapped_properties rdf:datatype="http://www.w3.org/2001/XMLSchema#string">{'sambal': 'terasi'}</unmapped_properties>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_merah_keriting_Jotanbar">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">40 - 85 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah-tinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 A</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7 - 12,5 m</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,2 - 4 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">31,851 - 38,264 cm²</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,3 - 5 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 C</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 138 C</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip (acute)</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bersilang</kedudukanDaun>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155 A</warnaMahkota>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 - 2,6 cm</panjangMahkota>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 - 1,5 cm</lebarMahkotaBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">05-Jul</jumlahMahkotaBunga>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">greyed-yellow group 160 B</warnaTangkaiPutik>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 -0,6 cm</panjangPutik>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">black group 202 B</warnaKepalaSari>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155 A</warnaTangkaiSari>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,7 cm</panjangBenangsari>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 141 C</warnaGagangBunga>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 3,5 cm</panjangGagangBunga>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 - '2</jumlahGagangBunga>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBunga>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,5 cm</panjangKelopakBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 141 C</warnaKelopakBunga>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tetap melekat pada buah</kedudukanKelopakBunga>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10,3 - 17 cm</panjangBuahMuda>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,8 - 2,7 cm</kelilingBuahMuda>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,7 - 5,8 cm</panjangTangkaiBuahMuda>
+    <panjangKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 - 0,9 cm</panjangKelopakBuahMuda>
+    <kelilingKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 2,7 cm</kelilingKelopakBuahMuda>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBuahMuda>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">memanjang ramping</bentukBuah>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 143 A</warnaBuahMuda>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">red group 45 A</warnaBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMuda>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMasak>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,5 - 5,2 cm</panjangTangkaiBuahMasak>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">12,5 - 19,1 cm</panjangBuahMasak>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,8 - 2,8 cm</kelilingBuahMasak>
+    <panjangKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,6 - 0,8 cm</panjangKelopakBuahMasak>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,9 - 3,2 cm</kelilingKelopakBuahMasak>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">meruncing</bentukUjungBuah>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-orange group 23 C</warnaBiji>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">30 -71</jumlahBiji>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_landung">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">43 - 44 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah-tinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kapsul gemuk dengan kulit buah halus</bentukBuah>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBuahMuda>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tumpul</bentukUjungBuah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip (acute)</bentukUjungDaun>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15 - 27</jumlahBiji>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</jumlahGagangBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5 -'6</jumlahMahkotaBunga>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bersilang</kedudukanDaun>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tetap melekat pada buah</kedudukanKelopakBunga>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,2 - 3,5 cm</kelilingBuahMasak>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,2 - 3,4 cm</kelilingBuahMuda>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,4 - 3,6 cm</kelilingKelopakBuahMasak>
+    <kelilingKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,4 - 3,9 cm</kelilingKelopakBuahMuda>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,5 - 4,7 cm</lebarDaun>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,6 cm</lebarMahkotaBunga>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">19,506 - 30,121 cm²</luasDaun>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 cm</panjangBenangsari>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6,5 - 9 cm</panjangBuahMasak>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6,9 - 9,5 cm</panjangBuahMuda>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6,5 -10,5 cm</panjangDaun>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,4 - 2,1 cm</panjangGagangBunga>
+    <panjangKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 - 0,9 cm</panjangKelopakBuahMasak>
+    <panjangKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,8 cm</panjangKelopakBuahMuda>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,2 - 0,4 cm</panjangKelopakBunga>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,8 - 1,2 cm</panjangMahkota>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,6 cm</panjangPutik>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,9 - 2,7 cm</panjangTangkaiBuahMasak>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 3,5 cm</panjangTangkaiBuahMuda>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4,5 - 10,3 cm</panjangTangkaiDaun>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMuda>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBunga>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-orange group 23 C</warnaBiji>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">red group 45 C</warnaBuahMasak>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">greyed-green group N189A</warnaBuahMuda>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group NN137 B</warnaDaun>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 B</warnaGagangBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 B</warnaKelopakBunga>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">greyed-purple group N186A</warnaKepalaSari>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155 A</warnaMahkota>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 C</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 138 D</warnaPangkalTangkaiDaunBagbawah>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">White group 155 D</warnaTangkaiPutik>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">grey-brown group 199D</warnaTangkaiSari>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_Keriting">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendahÐtinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8Ð13 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2Ð4 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">25Ð45 cm2</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3Ð6 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rata</tepiDaun>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_tanjung">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">44.5-50 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah-tinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kapsul gemuk dengan kulit buah halus</bentukBuah>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBuahMuda>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tumpul</bentukUjungBuah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip (acute)</bentukUjungDaun>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">21 - 80</jumlahBiji>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</jumlahGagangBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5 - 6</jumlahMahkotaBunga>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bersilang</kedudukanDaun>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tetap melekat pada buah</kedudukanKelopakBunga>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4 - 5,8 cm</kelilingBuahMasak>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4,4 - 6,1 cm</kelilingBuahMuda>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,2 - 4,2 cm</kelilingKelopakBuahMasak>
+    <kelilingKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3,1 - 4,5 cm</kelilingKelopakBuahMuda>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4,5 - 5,5 cm</lebarDaun>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,6 cm</lebarMahkotaBunga>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">22,387 - 33,728 cm²</luasDaun>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 cm</panjangBenangsari>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6,6 - 12,3 cm</panjangBuahMasak>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8 - 10,5 cm</panjangBuahMuda>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">9,5 - 11,7 cm</panjangDaun>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,3 - 2,7 cm</panjangGagangBunga>
+    <panjangKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,7 cm</panjangKelopakBuahMasak>
+    <panjangKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,6 cm</panjangKelopakBuahMuda>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,4 cm</panjangKelopakBunga>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 - 1,4 cm</panjangMahkota>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 - 0,7 cm</panjangPutik>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,5 - 3,4 cm</panjangTangkaiBuahMasak>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,1 - 3,4 cm</panjangTangkaiBuahMuda>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4,5 - 6,3 cm</panjangTangkaiDaun>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMuda>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBunga>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-orange group 23 C</warnaBiji>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">red group N45A</warnaBuahMasak>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 A</warnaBuahMuda>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-green group 147 A</warnaDaun>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 131 B</warnaGagangBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 131B</warnaKelopakBunga>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">blue green group 116 B</warnaKepalaSari>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155 A</warnaMahkota>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 D</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 138 C</warnaPangkalTangkaiDaunBagbawah>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group NN 155 C</warnaTangkaiPutik>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group NN 155 B</warnaTangkaiSari>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangGagangBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#posisiBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_merah_keriting_akar">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">33 -70 cm</TinggiTanaman>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah-tinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul/tidak berbulu</batang>
+    <bentukBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">memanjang ramping</bentukBuah>
+    <bentukBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">seperti bintang</bentukBunga>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">oblong</bentukDaun>
+    <bentukKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBuahMuda>
+    <bentukKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cup</bentukKelopakBunga>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukUjungBuah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">meruncing</bentukUjungBuah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip (acute)</bentukUjungDaun>
+    <jumlahBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">19 - 70</jumlahBiji>
+    <jumlahGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</jumlahGagangBunga>
+    <jumlahMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5 - 6</jumlahMahkotaBunga>
+    <kedudukanDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bersilang</kedudukanDaun>
+    <kedudukanKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tetap melekat pada buah</kedudukanKelopakBunga>
+    <kelilingBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 3 cm</kelilingBuahMasak>
+    <kelilingBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,1 - 2,5 cm</kelilingBuahMuda>
+    <kelilingKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 3 cm</kelilingKelopakBuahMasak>
+    <kelilingKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 2,6 cm</kelilingKelopakBuahMuda>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,1 - 3,5 cm</lebarDaun>
+    <lebarMahkotaBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 - 1,2 cm</lebarMahkotaBunga>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">27,664 - 30,161 cm²</luasDaun>
+    <panjangBenangsari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,6 - 0,7 cm</panjangBenangsari>
+    <panjangBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">12,8 - 17,8 cm</panjangBuahMasak>
+    <panjangBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11,5 - 15,1 cm</panjangBuahMuda>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5,5 -10,5 cm</panjangDaun>
+    <panjangGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 - 3 cm</panjangGagangBunga>
+    <panjangKelopakBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,6 - 0,9 cm</panjangKelopakBuahMasak>
+    <panjangKelopakBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,5 - 0,8 cm</panjangKelopakBuahMuda>
+    <panjangKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,3 - 0,6 cm</panjangKelopakBunga>
+    <panjangMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,9 - 3 cm</panjangMahkota>
+    <panjangPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0,4 - 0,7 cm</panjangPutik>
+    <panjangTangkaiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3 - 4,6 cm</panjangTangkaiBuahMasak>
+    <panjangTangkaiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2,1 - 5,3 cm</panjangTangkaiBuahMuda>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1,9 - 3,5 cm</panjangTangkaiDaun>
+    <posisiBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMasak>
+    <posisiBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBuahMuda>
+    <posisiBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menggantung</posisiBunga>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">entire</tepiDaun>
+    <warnaBiji rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yellow-orange group 23 C</warnaBiji>
+    <warnaBuahMasak rdf:datatype="http://www.w3.org/2001/XMLSchema#string">red group 45 A</warnaBuahMasak>
+    <warnaBuahMuda rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 143 B</warnaBuahMuda>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 A</warnaDaun>
+    <warnaGagangBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 143 B</warnaGagangBunga>
+    <warnaKelopakBunga rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 143 A</warnaKelopakBunga>
+    <warnaKepalaSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">black group 202 B</warnaKepalaSari>
+    <warnaMahkota rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155 A</warnaMahkota>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 137 C</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">green group 138 C</warnaPangkalTangkaiDaunBagbawah>
+    <warnaTangkaiPutik rdf:datatype="http://www.w3.org/2001/XMLSchema#string">greyed-yellow group 160 B</warnaTangkaiPutik>
+    <warnaTangkaiSari rdf:datatype="http://www.w3.org/2001/XMLSchema#string">white group 155 A</warnaTangkaiSari>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_Kulai_Cili_Kulai">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <berasalDari rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#dataran_rendah"/>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">50Ð100 cm</TinggiTanaman>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8Ð12 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2Ð4 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20Ð40 cm2</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3Ð6 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menyempit</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rata</tepiDaun>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#berasalDari">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <rdfs:range rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#DaerahAsal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#jumlahBiji">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangKelopakBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#jumlahGagangBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_Hijau_Besar">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <berasalDari rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#dataran_rendah"/>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">semusim</Umur>
+    <TinggiTanaman rdf:datatype="http://www.w3.org/2001/XMLSchema#string">60Ð110 cm</TinggiTanaman>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendah</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau terang</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">9Ð14 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3Ð5 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">28Ð55 cm2</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3Ð6 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau muda</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">menyempit</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rata</tepiDaun>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#tepiDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaMahkota">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaGagangBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaBuahMasak">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai_Padi_Cili_Padi">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <Umur rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bertahunan</Umur>
+    <adaptasiEkologi rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataran rendahÐtinggi</adaptasiEkologi>
+    <batang rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gundul</batang>
+    <teksturDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">halus</teksturDaun>
+    <warnaDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau tua</warnaDaun>
+    <panjangDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6Ð10 cm</panjangDaun>
+    <lebarDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2Ð3 cm</lebarDaun>
+    <luasDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15Ð25 cm2</luasDaun>
+    <panjangTangkaiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2Ð5 cm</panjangTangkaiDaun>
+    <warnaPangkalTangkaiDaunBagAtas rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaPangkalTangkaiDaunBagAtas>
+    <warnaPangkalTangkaiDaunBagbawah rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hijau</warnaPangkalTangkaiDaunBagbawah>
+    <bentukUjungDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lancip</bentukUjungDaun>
+    <bentukPangkalDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">attenuate</bentukPangkalDaun>
+    <bentukDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ovate</bentukDaun>
+    <tepiDaun rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rata</tepiDaun>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangTangkaiBuahMasak">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#kedudukanKelopakBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#batang">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangKelopakBuahMasak">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaBuahMuda">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#payakumbuah">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#DaerahAsal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Lombok">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#DaerahAsal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#bentukUjungDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#bentukKelopakBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#bentukBuah">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#adaptasiEkologi">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#NTB">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#DaerahAsal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#teksturDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#posisiBuahMasak">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangTangkaiDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#kopay">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+    <berasalDari rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#payakumbuah"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaKelopakBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangTangkaiBuahMuda">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#kelilingKelopakBuahMuda">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#kelilingBuahMasak">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#dataran_rendah">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#DaerahAsal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#bentukDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangBenangsari">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaTangkaiPutik">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangPutik">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangBuahMuda">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangBuahMasak">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#kelilingKelopakBuahMasak">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#bentukBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#jumlahMahkotaBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#luasDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaPangkalTangkaiDaunBagbawah">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#manado">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaKepalaSari">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#posisiBuahMuda">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#bentukPangkalDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaTangkaiSari">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangKelopakBuahMuda">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Umur">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#katokon">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#Cabai">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#TinggiTanaman">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaBiji">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#panjangMahkota">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#lebarMahkotaBunga">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#kelilingBuahMuda">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#bentukKelopakBuahMuda">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#lebarDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#bentukUjungBuah">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#kedudukanDaun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#DaerahAsal">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.semanticweb.org/bagindokemas/ontologies/2026/1/untitled-ontology-328#warnaPangkalTangkaiDaunBagAtas">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+</rdf:RDF>

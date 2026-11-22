@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script src="/admin-auth.js"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cabai RAG · Sinkronisasi Data</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0e1210;
+      --surface:    #151a16;
+      --surface2:   #1c2420;
+      --border:     #2a3530;
+      --border2:    #344540;
+      --text:       #e8ede6;
+      --text2:      #a8b8a4;
+      --muted:      #5a7060;
+      --accent:     #c8a96e;
+      --accent2:    #e8c98e;
+      --green:      #4caf7d;
+      --red:        #e05252;
+      --yellow:     #d4a44c;
+      --head:       'Fraunces', serif;
+      --body:       'DM Sans', sans-serif;
+      --mono:       'DM Mono', monospace;
+    }
+
+    html { font-size: 18px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── LOGIN PAGE ─────────────────────────────────────────────────────── */
+    #login-page {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    #login-page.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px);
+    }
+
+    /* Left panel — decorative */
+    .login-left {
+      flex: 1;
+      background: #0a0f0c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Radial glow */
+    .login-left::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,169,110,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Grid lines */
+    .login-left::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(42,53,48,0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(42,53,48,0.4) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .login-illustration {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .chili-big {
+      font-size: 9rem;
+      line-height: 1;
+      display: block;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 60px rgba(200,169,110,0.3));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50%       { transform: translateY(-18px) rotate(5deg); }
+    }
+
+    .login-tagline {
+      font-family: var(--head);
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-top: 1.5rem;
+      font-style: italic;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    /* Right panel — login form */
+    .login-right {
+      width: 480px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3.5rem;
+    }
+
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+    }
+
+    .login-logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #2a3530, #1c2420);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .login-logo-text {
+      font-family: var(--head);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .login-logo-text span { color: var(--accent); }
+
+    .login-heading {
+      font-family: var(--head);
+      font-size: 2.2rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .login-sub {
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: var(--accent);
+      color: #0e1210;
+      border: none;
+      border-radius: 10px;
+      font-family: var(--body);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: all 0.2s;
+      letter-spacing: -0.01em;
+    }
+
+    .login-btn:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(200,169,110,0.3);
+    }
+
+    .login-note {
+      margin-top: 1.25rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* Steps preview on login */
+    .login-steps {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .login-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .step-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-family: var(--mono);
+    }
+
+    .step-text {
+      font-size: 0.8rem;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    /* ── MAIN PAGE ──────────────────────────────────────────────────────── */
+    #main-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.5s ease 0.2s;
+      pointer-events: none;
+    }
+
+    #main-page.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Top nav */
+    .topnav {
+      display: flex;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--head);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-pill {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      font-size: 0.8rem;
+      color: var(--green);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .nav-pill:hover { border-color: var(--red); color: var(--red); }
+
+    .nav-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 6px currentColor;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 3rem 2.5rem;
+      gap: 3rem;
+    }
+
+    /* Left — info */
+    .info-col {}
+
+    .info-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .info-heading {
+      font-family: var(--head);
+      font-size: 3rem;
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .info-heading em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .info-desc {
+      font-size: 1rem;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+
+    /* Steps */
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 1.25rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .step-item:first-child { border-top: 1px solid var(--border); }
+
+    .step-badge {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 500;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-body {}
+
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+      letter-spacing: -0.01em;
+    }
+
+    .step-detail {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Right — action panel */
+    .action-col {}
+
+    .action-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      position: sticky;
+      top: 90px;
+    }
+
+    .panel-header {
+      padding: 1.5rem 1.75rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .panel-title {
+      font-family: var(--head);
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .panel-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .panel-body { padding: 1.75rem; }
+
+    /* Run button */
+    .run-btn {
+      width: 100%;
+      padding: 1.1rem 1.5rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #0e1210;
+      border: none;
+      border-radius: 10px;
+      font-family: var(--body);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: all 0.2s;
+      letter-spacing: -0.01em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .run-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .run-btn:hover:not(:disabled)::before { opacity: 1; }
+
+    .run-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(200,169,110,0.35);
+    }
+
+    .run-btn:active:not(:disabled) { transform: translateY(0); }
+
+    .run-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(14,18,16,0.3);
+      border-top-color: #0e1210;
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Log section */
+    .log-section { margin-top: 1.5rem; display: none; }
+
+    .log-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+    }
+
+    .log-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      font-family: var(--mono);
+    }
+
+    .badge-running { background: rgba(212,164,76,0.15); color: var(--yellow); border: 1px solid rgba(212,164,76,0.3); }
+    .badge-done    { background: rgba(76,175,125,0.15); color: var(--green);  border: 1px solid rgba(76,175,125,0.3); }
+    .badge-error   { background: rgba(224,82,82,0.15);  color: var(--red);    border: 1px solid rgba(224,82,82,0.3); }
+
+    .terminal {
+      background: #080c0a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.9;
+      color: #7a9a84;
+      max-height: 280px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .log-ok   { color: #4caf7d; }
+    .log-err  { color: #e05252; }
+    .log-info { color: #c8a96e; }
+    .log-dim  { color: #2a4034; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-top: 1.1rem;
+    }
+
+    .stat-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--head);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .stat-lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      line-height: 1.3;
+    }
+
+    /* Scrollbar */
+    .terminal::-webkit-scrollbar { width: 4px; }
+    .terminal::-webkit-scrollbar-track { background: transparent; }
+    .terminal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .login-left { display: none; }
+      .login-right { width: 100%; }
+      .main-content { grid-template-columns: 1fr; }
+      .action-panel { position: static; }
+      .info-heading { font-size: 2.2rem; }
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-item { animation: fadeUp 0.5s ease both; }
+    .step-item:nth-child(1) { animation-delay: 0.05s; }
+    .step-item:nth-child(2) { animation-delay: 0.1s; }
+    .step-item:nth-child(3) { animation-delay: 0.15s; }
+    .step-item:nth-child(4) { animation-delay: 0.2s; }
+    .step-item:nth-child(5) { animation-delay: 0.25s; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ LOGIN PAGE ══════════════════ -->
+<div id="login-page">
+
+  <div class="login-left">
+    <div class="login-illustration">
+      <span class="chili-big">🌶️</span>
+      <p class="login-tagline">Sistem Manajemen Data Spesimen Cabai</p>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-logo">
+      <div class="login-logo-icon">🌶️</div>
+      <span class="login-logo-text">Cabai<span>RAG</span></span>
+    </div>
+
+    <h1 class="login-heading">Selamat<br>datang kembali.</h1>
+    <p class="login-sub">Masuk dengan password admin untuk memulai sinkronisasi data spesimen cabai dari Google Drive ke MongoDB.</p>
+
+    <button class="login-btn" onclick="loginWithGoogle()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Masuk sebagai Admin
+    </button>
+
+    <p class="login-note">Drive diakses lewat service account (hanya-baca)<br>pada folder yang dibagikan ke service account tersebut.</p>
+
+    <div class="login-steps">
+      <div class="login-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Unduh & proses file Excel dari Google Drive</div>
+      </div>
+      <div class="login-step">
+        <div class="step-num">2</div>
+        <div class="step-text">Perbarui koleksi spesimen di MongoDB</div>
+      </div>
+      <div class="login-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Cocokkan gambar ke spesimen menggunakan AI</div>
+      </div>
+      <div class="login-step">
+        <div class="step-num">4</div>
+        <div class="step-text">Simpan tautan gambar ke setiap dokumen</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MAIN PAGE ══════════════════ -->
+<div id="main-page">
+
+  <nav class="topnav">
+    <div class="nav-logo">🌶️ Cabai<span>RAG</span></div>
+    <button class="nav-pill" id="nav-pill" onclick="handleLogout()">
+      <span class="nav-dot"></span>
+      <span id="nav-label">Terhubung · Keluar</span>
+    </button>
+  </nav>
+
+  <div class="main-content">
+
+    <!-- Left: info -->
+    <div class="info-col">
+      <p class="info-eyebrow">Dashboard Sinkronisasi</p>
+      <h1 class="info-heading">Perbarui data<br><em>spesimen cabai</em><br>sekarang.</h1>
+      <p class="info-desc">
+        Sistem ini secara otomatis mengambil data dari Google Drive,
+        memproses file Excel dan gambar, lalu memperbaruinya ke database MongoDB
+        menggunakan kecerdasan buatan untuk pencocokan nama spesimen.
+      </p>
+
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-badge">01</div>
+          <div class="step-body">
+            <div class="step-title">Unduh File Excel</div>
+            <div class="step-detail">Mengambil semua file .xlsx dari Google Drive secara langsung ke memori.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-badge">02</div>
+          <div class="step-body">
+            <div class="step-title">Proses & Gabungkan Data</div>
+            <div class="step-detail">Mentranspose dan menggabungkan data karakter spesimen dari semua Excel.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-badge">03</div>
+          <div class="step-body">
+            <div class="step-title">Perbarui MongoDB</div>
+            <div class="step-detail">Menghapus dokumen lama dan memasukkan data spesimen terbaru ke koleksi.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-badge">04</div>
+          <div class="step-body">
+            <div class="step-title">Publikasi Gambar</div>
+            <div class="step-detail">Menjadikan semua gambar di folder <strong style="color:var(--text2)">gambar</strong> dapat diakses publik.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-badge">05</div>
+          <div class="step-body">
+            <div class="step-title">Pencocokan AI</div>
+            <div class="step-detail">Mencocokkan nama file gambar ke nama spesimen di database sesuai aturan penamaan.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: action panel -->
+    <div class="action-col">
+      <div class="action-panel">
+        <div class="panel-header">
+          <div class="panel-title">Jalankan Pipeline</div>
+          <div class="panel-sub">Proses penuh · Excel + Gambar</div>
+        </div>
+        <div class="panel-body">
+
+          <button class="run-btn" id="run-btn" onclick="runPipeline()">
+            🔄 Perbarui Data MongoDB
+          </button>
+
+          <div class="log-section" id="log-section">
+            <div class="log-top">
+              <span class="log-title">Log Proses</span>
+              <span class="badge badge-running" id="status-badge">Berjalan...</span>
+            </div>
+            <div class="terminal" id="terminal"></div>
+            <div class="stats-grid" id="stats-grid" style="display:none">
+              <div class="stat-box">
+                <div class="stat-num" id="r-specimens">—</div>
+                <div class="stat-lbl">Spesimen<br>di DB</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="r-images">—</div>
+                <div class="stat-lbl">Gambar<br>Diproses</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="r-matched">—</div>
+                <div class="stat-lbl">Gambar<br>Tercocok</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="r-updated">—</div>
+                <div class="stat-lbl">Spesimen<br>Diperbarui</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const API = '/api/drive';
+
+  let authenticated = false;
+  let pollInterval  = null;
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    window.addEventListener('message', async (e) => {
+      if (e.data === 'auth_success') await checkAuth();
+    });
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('auth') === 'success') window.history.replaceState({}, '', window.location.pathname);
+    await checkAuth();
+  });
+
+  async function checkAuth() {
+    try {
+      const res  = await fetch(`${API}/auth/status`);
+      const data = await res.json();
+      authenticated = data.authenticated;
+    } catch { authenticated = false; }
+    updateUI();
+  }
+
+  function updateUI() {
+    const loginPage = document.getElementById('login-page');
+    const mainPage  = document.getElementById('main-page');
+
+    if (authenticated) {
+      loginPage.classList.add('hidden');
+      mainPage.classList.add('visible');
+    } else {
+      loginPage.classList.remove('hidden');
+      mainPage.classList.remove('visible');
+    }
+  }
+
+  async function loginWithGoogle() {
+    const pw = prompt('Password admin:');
+    if (pw && await window.cabaiAdminLogin(pw)) { await checkAuth(); return; }
+    if (pw !== null) alert('Password salah.');
+  }
+  function _unusedGoogleLogin() {
+    const w = 520, h = 660;
+    const left = (screen.width  - w) / 2;
+    const top  = (screen.height - h) / 2;
+    window.open(`${API}/auth/login`, 'google_auth', `width=${w},height=${h},left=${left},top=${top}`);
+  }
+
+  async function handleLogout() {
+    await fetch(`${API}/auth/logout`, { method: 'POST' }); window.cabaiAdminLogout();
+    authenticated = false;
+    updateUI();
+  }
+
+  async function runPipeline() {
+    const btn       = document.getElementById('run-btn');
+    const logSec    = document.getElementById('log-section');
+    const terminal  = document.getElementById('terminal');
+    const badge     = document.getElementById('status-badge');
+    const statsGrid = document.getElementById('stats-grid');
+
+    btn.disabled    = true;
+    btn.innerHTML   = '<span class="spinner"></span> Sedang Berjalan...';
+    terminal.innerHTML = '';
+    badge.textContent  = 'Berjalan...';
+    badge.className    = 'badge badge-running';
+    statsGrid.style.display = 'none';
+    logSec.style.display    = 'block';
+
+    if (pollInterval) clearInterval(pollInterval);
+
+    try {
+      const res  = await fetch(`${API}/process/run`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ skip_excel: false, skip_images: false, dry_run: false }),
+      });
+      const data  = await res.json();
+      const jobId = data.job_id;
+
+      addLog(terminal, `▶ Pipeline dimulai (${jobId})`, 'info');
+
+      pollInterval = setInterval(async () => {
+        try {
+          const sRes   = await fetch(`${API}/process/status/${jobId}`);
+          const status = await sRes.json();
+
+          terminal.innerHTML = '';
+          (status.logs || []).forEach(line => {
+            const cls =
+              (line.includes('❌') || line.includes('✗') || line.includes('ERROR')) ? 'err'  :
+              (line.includes('✅') || line.includes('✓') || line.includes('COMPLETE'))? 'ok'  :
+              (line.includes('🔍') || line.includes('📊') || line.includes('🤖') ||
+               line.includes('💾') || line.includes('🔌') || line.includes('📁') ||
+               line.includes('⬇')  || line.includes('🗂') || line.includes('🗑') ||
+               line.includes('🧹') || line.includes('PHASE') || line.includes('▶'))  ? 'info':
+              (line.startsWith('=') || line.includes('⏭'))                          ? 'dim' : '';
+            addLog(terminal, line, cls);
+          });
+
+          if (status.status === 'done') {
+            clearInterval(pollInterval);
+            badge.textContent = 'Selesai ✓';
+            badge.className   = 'badge badge-done';
+            btn.disabled      = false;
+            btn.innerHTML     = '🔄 Perbarui Data MongoDB';
+
+            const r      = status.result || {};
+            const excel  = r.excel  || {};
+            const images = r.images || {};
+            document.getElementById('r-specimens').textContent = excel.new_count       ?? '—';
+            document.getElementById('r-images').textContent    = images.total          ?? '—';
+            document.getElementById('r-matched').textContent   = images.unique_matched ?? '—';
+            document.getElementById('r-updated').textContent   = images.updated        ?? '—';
+            statsGrid.style.display = 'grid';
+
+          } else if (status.status === 'error') {
+            clearInterval(pollInterval);
+            badge.textContent = 'Error ✗';
+            badge.className   = 'badge badge-error';
+            btn.disabled      = false;
+            btn.innerHTML     = '🔄 Perbarui Data MongoDB';
+          }
+        } catch { /* ignore */ }
+      }, 1500);
+
+    } catch (e) {
+      addLog(terminal, `❌ Gagal memulai: ${e.message}`, 'err');
+      badge.textContent = 'Error ✗';
+      badge.className   = 'badge badge-error';
+      btn.disabled      = false;
+      btn.innerHTML     = '🔄 Perbarui Data MongoDB';
+    }
+  }
+
+  function addLog(el, text, cls = '') {
+    const span = document.createElement('span');
+    if (cls) span.className = `log-${cls}`;
+    span.textContent = text + '\n';
+    el.appendChild(span);
+    el.scrollTop = el.scrollHeight;
+  }
+</script>
+</body>
+</html>

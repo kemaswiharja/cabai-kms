@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PepperRAG - Chili Knowledge Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            margin-bottom: 24px;
+            border: 1px solid #4b5563;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #d1d5db;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .search-section {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            margin-bottom: 24px;
+            border: 1px solid #d1d5db;
+        }
+
+        .search-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        #questionInput {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        #questionInput:focus {
+            border-color: #6b7280;
+            box-shadow: 0 0 0 4px rgba(107, 114, 128, 0.1);
+        }
+
+        #searchBtn {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        #searchBtn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        #searchBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-section {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            border: 1px solid #d1d5db;
+            display: none;
+        }
+
+        .result-section.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-display {
+            background: #f9fafb;
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            border-left: 4px solid #6b7280;
+        }
+
+        .question-display .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        .question-display .text {
+            font-size: 16px;
+            color: #111827;
+            font-weight: 500;
+        }
+
+        .loading-section {
+            background: #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border-left: 4px solid #6b7280;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 15px;
+            color: #6b7280;
+        }
+
+        .step-item.processing {
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .step-item.complete {
+            color: #059669;
+        }
+
+        .step-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step-label {
+            flex: 1;
+        }
+
+        /* Latency badge */
+        .step-latency {
+            margin-left: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            padding: 2px 8px;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .step-latency.visible {
+            opacity: 1;
+        }
+
+        .step-latency.fast {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .step-latency.medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .step-latency.slow {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Live timer for in-progress steps */
+        .step-timer {
+            margin-left: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            font-family: 'Courier New', monospace;
+            color: #9ca3af;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Total latency summary bar */
+        .latency-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1f2937;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 13px;
+        }
+
+        .latency-summary .total-label {
+            font-weight: 600;
+            color: #d1d5db;
+        }
+
+        .latency-summary .total-time {
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            color: #34d399;
+        }
+
+        .latency-breakdown {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .latency-bar-item {
+            font-size: 11px;
+            color: #9ca3af;
+            font-family: 'Courier New', monospace;
+        }
+
+        .spinner {
+            border: 2px solid #d1d5db;
+            border-top: 2px solid #374151;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .checkmark {
+            color: #059669;
+            font-size: 18px;
+        }
+
+        .answer-section {
+            margin-bottom: 24px;
+        }
+
+        .answer-section .label {
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .answer-section .content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #1f2937;
+            white-space: pre-wrap;
+        }
+
+        .source-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e5e7eb;
+            color: #4b5563;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid #e5e7eb;
+        }
+
+        .image-gallery img:hover {
+            transform: scale(1.05);
+            border-color: #6b7280;
+        }
+
+        .references-section {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 24px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .references-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .references-section .content {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #4b5563;
+            font-family: 'Courier New', monospace;
+        }
+
+        .new-search-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #f3f4f6;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 24px;
+        }
+
+        .new-search-btn:hover {
+            background: #e5e7eb;
+            border-color: #9ca3af;
+        }
+
+        .config-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 18px;
+            background: white;
+            color: #1f2937;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            z-index: 1000;
+            font-size: 14px;
+        }
+
+        .config-btn:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .config-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .config-modal.active {
+            display: flex;
+        }
+
+        .config-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .config-content h2 {
+            margin-bottom: 20px;
+            color: #111827;
+            font-weight: 600;
+        }
+
+        .config-content input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .config-content input:focus {
+            outline: none;
+            border-color: #6b7280;
+            box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+        }
+
+        .config-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .config-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+        }
+
+        .cancel-btn {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .health-status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .health-status.checking {
+            background: #f3f4f6;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+        }
+
+        .health-status.healthy {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        .health-status.unhealthy {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.green { background: #059669; }
+        .status-dot.red   { background: #dc2626; }
+        .status-dot.gray  { background: #9ca3af; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 24px; }
+            .header h1 { font-size: 24px; }
+            .search-section { padding: 20px; }
+            .input-group { flex-direction: column; }
+            #searchBtn { width: 100%; }
+            .result-section { padding: 20px; }
+            .health-status { left: 10px; top: 10px; font-size: 12px; padding: 8px 14px; }
+            .config-btn    { right: 10px; top: 10px; font-size: 12px; padding: 8px 14px; }
+            .step-latency, .step-timer { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="health-status checking" id="healthStatus">
+        <span class="status-dot gray"></span>
+        <span>Checking API...</span>
+    </div>
+
+    <button class="config-btn" onclick="openConfig()">⚙️ Settings</button>
+
+    <div class="config-modal" id="configModal">
+        <div class="config-content">
+            <h2>API Configuration</h2>
+            <input type="text" id="apiUrl" placeholder="Backend API URL" value="">
+            <div class="config-buttons">
+                <button class="cancel-btn" onclick="closeConfig()">Cancel</button>
+                <button class="save-btn" onclick="saveConfig()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🌶️ PepperRAG Knowledge System</h1>
+            <p>Intelligent Question & Answer System for Peppers and Chili</p>
+            <p class="subtitle">Ask a question and get comprehensive answers with references</p>
+        </div>
+
+        <div class="search-section">
+            <label class="search-label">Ask Your Question</label>
+            <div class="input-group">
+                <input type="text" id="questionInput" placeholder="e.g., What are the characteristics of Habanero peppers?" onkeypress="handleKeyPress(event)">
+                <button id="searchBtn" onclick="searchQuestion()">🔍 Search</button>
+            </div>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="question-display">
+                <div class="label">Your Question</div>
+                <div class="text" id="displayQuestion"></div>
+            </div>
+
+            <div class="loading-section" id="loadingSection">
+                <div class="step-item" id="step1">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Checking relevance...</span>
+                    <span class="step-timer" id="timer1"></span>
+                    <span class="step-latency" id="latency1"></span>
+                </div>
+                <div class="step-item" id="step2">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Analyzing database...</span>
+                    <span class="step-timer" id="timer2"></span>
+                    <span class="step-latency" id="latency2"></span>
+                </div>
+                <div class="step-item" id="step3">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Generating query...</span>
+                    <span class="step-timer" id="timer3"></span>
+                    <span class="step-latency" id="latency3"></span>
+                </div>
+                <div class="step-item" id="step4">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Executing query...</span>
+                    <span class="step-timer" id="timer4"></span>
+                    <span class="step-latency" id="latency4"></span>
+                </div>
+                <div class="step-item" id="step5">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Evaluating results...</span>
+                    <span class="step-timer" id="timer5"></span>
+                    <span class="step-latency" id="latency5"></span>
+                </div>
+                <div class="step-item" id="step5a">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Querying documents...</span>
+                    <span class="step-timer" id="timer5a"></span>
+                    <span class="step-latency" id="latency5a"></span>
+                </div>
+                <div class="step-item" id="step5b">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Evaluating documents...</span>
+                    <span class="step-timer" id="timer5b"></span>
+                    <span class="step-latency" id="latency5b"></span>
+                </div>
+                <div class="step-item" id="step6">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Web search...</span>
+                    <span class="step-timer" id="timer6"></span>
+                    <span class="step-latency" id="latency6"></span>
+                </div>
+                <div class="step-item" id="step7">
+                    <span class="step-icon"></span>
+                    <span class="step-label">Generating answer...</span>
+                    <span class="step-timer" id="timer7"></span>
+                    <span class="step-latency" id="latency7"></span>
+                </div>
+
+                <!-- Total latency summary — shown after all steps complete -->
+                <div class="latency-summary" id="latencySummary" style="display:none;">
+                    <span class="total-label">⏱ Total query time</span>
+                    <span class="total-time" id="totalTime">—</span>
+                </div>
+            </div>
+
+            <div class="answer-section" id="answerSection" style="display: none;">
+                <div class="label">
+                    Answer
+                    <span class="source-badge" id="sourceBadge"></span>
+                </div>
+                <div class="content" id="answerContent"></div>
+                <div class="image-gallery" id="imageGallery"></div>
+            </div>
+
+            <button class="new-search-btn" onclick="newSearch()">🔄 Ask Another Question</button>
+        </div>
+    </div>
+
+    <script>
+        let API_URL = localStorage.getItem('apiUrl') || window.location.origin;
+
+        // ── Timing state ──────────────────────────────────────────────
+        let queryStartTime = null;          // when the whole query started
+        const stepStartTimes  = {};         // step key → Date.now() when processing began
+        const stepDurations   = {};         // step key → ms when completed
+        const liveTimerIds    = {};         // step key → setInterval id
+
+        function startStepTimer(step) {
+            const key = String(step);
+            stepStartTimes[key] = Date.now();
+
+            const timerEl = document.getElementById(`timer${key}`);
+            if (!timerEl) return;
+
+            // Update live counter every 100 ms
+            liveTimerIds[key] = setInterval(() => {
+                const elapsed = Date.now() - stepStartTimes[key];
+                timerEl.textContent = formatMs(elapsed);
+            }, 100);
+        }
+
+        function stopStepTimer(step) {
+            const key = String(step);
+            if (liveTimerIds[key]) {
+                clearInterval(liveTimerIds[key]);
+                delete liveTimerIds[key];
+            }
+            const timerEl = document.getElementById(`timer${key}`);
+            if (timerEl) timerEl.textContent = '';
+
+            const duration = stepStartTimes[key] ? Date.now() - stepStartTimes[key] : null;
+            if (duration !== null) stepDurations[key] = duration;
+
+            const latencyEl = document.getElementById(`latency${key}`);
+            if (latencyEl && duration !== null) {
+                latencyEl.textContent = formatMs(duration);
+                latencyEl.className = 'step-latency visible ' + latencyClass(duration);
+            }
+        }
+
+        function formatMs(ms) {
+            if (ms < 1000) return `${ms}ms`;
+            return `${(ms / 1000).toFixed(2)}s`;
+        }
+
+        function latencyClass(ms) {
+            if (ms < 1000)  return 'fast';
+            if (ms < 5000)  return 'medium';
+            return 'slow';
+        }
+
+        function showTotalLatency() {
+            if (!queryStartTime) return;
+            const total = Date.now() - queryStartTime;
+            const el = document.getElementById('totalTime');
+            if (el) el.textContent = formatMs(total);
+            const summary = document.getElementById('latencySummary');
+            if (summary) summary.style.display = 'flex';
+        }
+
+        function resetTimers() {
+            queryStartTime = null;
+            Object.keys(liveTimerIds).forEach(k => clearInterval(liveTimerIds[k]));
+            Object.keys(liveTimerIds).forEach(k => delete liveTimerIds[k]);
+            Object.keys(stepStartTimes).forEach(k => delete stepStartTimes[k]);
+            Object.keys(stepDurations).forEach(k => delete stepDurations[k]);
+
+            ['1','2','3','4','5','5a','5b','6','7'].forEach(k => {
+                const t = document.getElementById(`timer${k}`);
+                const l = document.getElementById(`latency${k}`);
+                if (t) t.textContent = '';
+                if (l) { l.textContent = ''; l.className = 'step-latency'; }
+            });
+
+            const summary = document.getElementById('latencySummary');
+            if (summary) summary.style.display = 'none';
+        }
+        // ─────────────────────────────────────────────────────────────
+
+        async function checkHealth() {
+            const statusEl = document.getElementById('healthStatus');
+            const dotEl = statusEl.querySelector('.status-dot');
+            const textEl = statusEl.querySelector('span:last-child');
+
+            try {
+                const response = await fetch(`${API_URL}/api/health`, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+                if (response.ok) {
+                    const data = await response.json();
+                    statusEl.className = 'health-status healthy';
+                    dotEl.className = 'status-dot green';
+                    textEl.textContent = `API Connected (${data.mongodb || 'unknown'})`;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                statusEl.className = 'health-status unhealthy';
+                dotEl.className = 'status-dot red';
+                textEl.textContent = 'API Disconnected';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', checkHealth);
+
+        function openConfig() {
+            document.getElementById('configModal').classList.add('active');
+            document.getElementById('apiUrl').value = API_URL;
+        }
+
+        function closeConfig() {
+            document.getElementById('configModal').classList.remove('active');
+        }
+
+        function saveConfig() {
+            API_URL = document.getElementById('apiUrl').value.replace(/\/$/, '');
+            localStorage.setItem('apiUrl', API_URL);
+            closeConfig();
+            alert('Settings saved! Rechecking API connection...');
+            checkHealth();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') searchQuestion();
+        }
+
+        function convertDriveLink(url) {
+            if (!url) return url;
+            const fileIdMatch = url.match(/[-\w]{25,}/);
+            if (fileIdMatch) return `https://drive.google.com/thumbnail?id=${fileIdMatch[0]}&sz=w400`;
+            return url;
+        }
+
+        function updateStep(step, status, message) {
+            const stepEl = document.getElementById(`step${step}`);
+            if (!stepEl) return;
+
+            const iconEl  = stepEl.querySelector('.step-icon');
+            const labelEl = stepEl.querySelector('.step-label');
+
+            if (status === 'processing') {
+                stepEl.className = 'step-item processing';
+                iconEl.innerHTML = '<div class="spinner"></div>';
+                labelEl.textContent = message;
+                startStepTimer(step);
+            } else if (status === 'complete') {
+                stopStepTimer(step);
+                stepEl.className = 'step-item complete';
+                iconEl.innerHTML = '<span class="checkmark">✓</span>';
+                labelEl.textContent = message;
+            }
+        }
+
+        function displayAnswer(answer, source, images) {
+            // Stop any still-running timers and show total
+            Object.keys(liveTimerIds).forEach(k => stopStepTimer(k));
+            showTotalLatency();
+
+            const parts = answer.split('---');
+            const mainAnswer = parts[0].trim();
+            const references = parts.length > 1 ? parts.slice(1).join('---').trim() : '';
+
+            document.getElementById('answerContent').textContent = mainAnswer;
+
+            const sourceMap = {
+                'mongodb_only': 'Database',
+                'documents_only': 'Documents',
+                'web_only': 'Web Search',
+                'mongodb_and_documents': 'Database + Documents',
+                'mongodb_and_web': 'Database + Web',
+                'documents_and_web': 'Documents + Web',
+                'mongodb_documents_and_web': 'All Sources'
+            };
+            document.getElementById('sourceBadge').textContent = sourceMap[source] || source;
+
+            const gallery = document.getElementById('imageGallery');
+            gallery.innerHTML = '';
+            if (images && images.length > 0) {
+                images.forEach(img => {
+                    const imgEl = document.createElement('img');
+                    imgEl.src = convertDriveLink(img);
+                    imgEl.alt = 'Pepper image';
+                    imgEl.onclick = () => window.open(img, '_blank');
+                    gallery.appendChild(imgEl);
+                });
+            }
+
+            if (references) {
+                const refSection = document.createElement('div');
+                refSection.className = 'references-section';
+                refSection.innerHTML = `<h3>📚 References</h3><div class="content">${references}</div>`;
+                document.getElementById('answerSection').appendChild(refSection);
+            }
+
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('answerSection').style.display = 'block';
+        }
+
+        async function searchQuestion() {
+            const input = document.getElementById('questionInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const question = input.value.trim();
+
+            if (!question) { alert('Please enter a question'); return; }
+
+            document.getElementById('displayQuestion').textContent = question;
+            document.getElementById('resultSection').classList.add('active');
+
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('answerSection').style.display = 'none';
+            document.getElementById('answerSection').querySelectorAll('.references-section').forEach(el => el.remove());
+
+            // Reset step UI
+            ['1','2','3','4','5','5a','5b','6','7'].forEach(step => {
+                const stepEl = document.getElementById(`step${step}`);
+                if (stepEl) {
+                    stepEl.className = 'step-item';
+                    stepEl.querySelector('.step-icon').innerHTML = '';
+                }
+            });
+
+            resetTimers();
+            queryStartTime = Date.now();
+
+            searchBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_URL}/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'text/event-stream' },
+                    body: JSON.stringify({ question })
+                });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+                const reader  = response.body.getReader();
+                const decoder = new TextDecoder(); let sseBuf = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    sseBuf += decoder.decode(value, { stream: true }); const lines = sseBuf.split('\n'); sseBuf = lines.pop();
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+                                if (data.step === 'final') {
+                                    displayAnswer(data.answer, data.source, data.images);
+                                } else {
+                                    updateStep(data.step, data.status, data.message);
+                                }
+                            } catch (parseError) {
+                                console.error('SSE parse error:', parseError, line);
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showTotalLatency();
+                document.getElementById('loadingSection').style.display = 'none';
+                document.getElementById('answerContent').textContent = `Sorry, there was an error: ${error.message}. Please check your API configuration and try again.`;
+                document.getElementById('sourceBadge').textContent = 'Error';
+                document.getElementById('answerSection').style.display = 'block';
+            } finally {
+                searchBtn.disabled = false;
+            }
+        }
+
+        function newSearch() {
+            document.getElementById('questionInput').value = '';
+            document.getElementById('resultSection').classList.remove('active');
+            document.getElementById('questionInput').focus();
+        }
+    </script>
+</body>
+</html>

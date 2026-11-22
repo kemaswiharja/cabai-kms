@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cabai Knowledge Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --surface3: #1e2330;
+    --border: rgba(255,255,255,0.07);
+    --border-h: rgba(255,255,255,0.13);
+    --accent: #e8ff5a;
+    --accent2: #5af0e8;
+    --accent3: #a78bfa;
+    --text: #f0f2f5;
+    --muted: #6b7280;
+    --muted2: #9ca3af;
+    --danger: #ff6b6b;
+    --card-hover: #151a24;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.013) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.013) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ══════════════════════════════════
+     PAGE SHELL — sidebar + content
+  ══════════════════════════════════ */
+  .page {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 1fr;
+    min-height: 100vh;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 32px 40px;
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+  }
+
+  /* Sidebar glow */
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 360px; height: 360px;
+    background: radial-gradient(ellipse, rgba(232,255,90,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .lang-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 48px;
+  }
+
+  .lang-pill {
+    display: flex;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .lang-pill button {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 5px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .lang-pill button.active {
+    background: var(--accent);
+    color: #0a0c10;
+    font-weight: 600;
+  }
+
+  .logo-block {
+    margin-bottom: 32px;
+  }
+
+  .logo-mark {
+    width: 56px; height: 56px;
+    background: var(--accent);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transform: rotate(-4deg);
+    margin-bottom: 20px;
+    box-shadow: 0 8px 24px rgba(232,255,90,0.2);
+  }
+
+  .logo-mark svg { width: 28px; height: 28px; }
+
+  .logo-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .logo-name span { color: var(--accent); }
+
+  .logo-desc {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 220px;
+  }
+
+  /* Sidebar stats */
+  .sidebar-stats {
+    margin-top: auto;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-label-sm {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .stat-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 12px;
+    color: var(--muted2);
+  }
+
+  .stat-chip .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-red   { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+  .dot-cyan  { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
+
+  .sidebar-footer {
+    margin-top: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    padding: 48px 48px 80px;
+    overflow-y: auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-left: 2px;
+  }
+
+  /* 2-column grid for cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+
+  /* Last card (5th) spans full width when odd */
+  .cards-grid .card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    animation: fadeUp 0.5s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.025) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .card:hover {
+    background: var(--card-hover);
+    border-color: var(--border-h);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  }
+
+  .card:nth-child(1) { animation-delay: 0.08s; }
+  .card:nth-child(2) { animation-delay: 0.13s; }
+  .card:nth-child(3) { animation-delay: 0.18s; }
+  .card:nth-child(4) { animation-delay: 0.23s; }
+  .card:nth-child(5) { animation-delay: 0.28s; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .card-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .badge-admin {
+    background: rgba(255,107,107,0.1);
+    color: var(--danger);
+    border: 1px solid rgba(255,107,107,0.2);
+  }
+
+  .badge-public {
+    background: rgba(90,240,232,0.08);
+    color: var(--accent2);
+    border: 1px solid rgba(90,240,232,0.18);
+  }
+
+  .card-body {}
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .card-arrow {
+    color: var(--muted);
+    transition: transform 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .card:hover .card-arrow {
+    transform: translate(3px, -3px);
+    color: var(--accent);
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .icon-yellow { background: rgba(232,255,90,0.1); }
+  .icon-cyan   { background: rgba(90,240,232,0.08); }
+  .icon-purple { background: rgba(167,139,250,0.1); }
+  .icon-orange { background: rgba(251,146,60,0.1); }
+  .icon-blue   { background: rgba(99,179,237,0.1); }
+
+  /* ── DOCS SECTION ── */
+  .guide-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: fadeUp 0.5s 0.32s ease both;
+    margin-bottom: 0;
+  }
+
+  .guide-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+    gap: 16px;
+  }
+
+  .guide-header:hover { background: var(--card-hover); }
+
+  .guide-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .guide-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .guide-meta {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .chevron {
+    color: var(--muted);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .chevron.open { transform: rotate(180deg); }
+
+  .pdf-wrap {
+    display: none;
+    border-top: 1px solid var(--border);
+    flex-direction: column;
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .pdf-wrap.open { display: flex; }
+
+  .pdf-wrap iframe {
+    width: 100%; height: 600px;
+    border: none;
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .pdf-fallback {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .pdf-fallback a { color: var(--accent2); text-decoration: none; }
+  .pdf-fallback a:hover { text-decoration: underline; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════════════════
+     RESPONSIVE — tablet
+  ═══════════════════════ */
+  @media (max-width: 1024px) {
+    .page {
+      grid-template-columns: 260px 1fr;
+    }
+    .content { padding: 40px 36px 60px; }
+  }
+
+  /* ═══════════════════════
+     RESPONSIVE — mobile
+  ═══════════════════════ */
+  @media (max-width: 768px) {
+    .page {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+    }
+
+    .sidebar {
+      position: relative;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 32px 24px 28px;
+    }
+
+    .sidebar-stats { display: none; }
+    .sidebar-footer { display: none; }
+
+    .logo-name { font-size: 26px; }
+    .logo-desc { max-width: 100%; }
+
+    .lang-row { margin-bottom: 28px; }
+
+    .logo-block { margin-bottom: 0; }
+
+    .content { padding: 28px 20px 60px; }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cards-grid .card:last-child:nth-child(odd) {
+      grid-column: auto;
+    }
+
+    .pdf-wrap iframe { height: 480px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar">
+
+    <div class="lang-row">
+      <div class="lang-pill">
+        <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+        <button id="btn-id" onclick="setLang('id')">ID</button>
+      </div>
+    </div>
+
+    <div class="logo-block">
+      <div class="logo-mark">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 16C6 10.477 10.477 6 16 6s10 4.477 10 10-4.477 10-10 10S6 21.523 6 16Z" stroke="#0a0c10" stroke-width="2"/>
+          <path d="M12 16h8M16 12v8" stroke="#0a0c10" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="2" fill="#0a0c10"/>
+        </svg>
+      </div>
+      <div class="logo-name">Cabai<span></span></div>
+      <div class="logo-name" style="font-size:18px;color:var(--muted);letter-spacing:-0.01em;margin-bottom:14px;margin-top:-4px;">Knowledge Management System</div>
+      <p class="logo-desc"
+         data-en="A unified access point for all system interfaces — RAG chatbot, database management, and ontology tools."
+         data-id="Pusat akses terpadu untuk semua antarmuka sistem — chatbot RAG, manajemen basis data, dan alat ontologi.">
+        A unified access point for all system interfaces — RAG chatbot, database management, and ontology tools.
+      </p>
+    </div>
+
+    <div class="sidebar-stats">
+      <div class="stat-label-sm" data-en="Access Level" data-id="Level Akses">Access Level</div>
+      <div class="stat-chips">
+        <div class="stat-chip">
+          <div class="dot dot-red"></div>
+          <span data-en="4 Admin tools" data-id="4 Alat admin">4 Admin tools</span>
+        </div>
+        <div class="stat-chip">
+          <div class="dot dot-cyan"></div>
+          <span data-en="1 Public tool" data-id="1 Alat publik">1 Public tool</span>
+        </div>
+      </div>
+      <div class="sidebar-footer" style="margin-top:24px;">
+        <div data-en="CabaiRAG System" data-id="Sistem CabaiRAG">CabaiRAG System</div>
+        <div data-en="All interfaces open in new tab" data-id="Semua antarmuka di tab baru">All interfaces open in new tab</div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══════════ MAIN CONTENT ══════════ -->
+  <main class="content">
+
+    <p class="section-label" data-en="System Interfaces" data-id="Antarmuka Sistem">System Interfaces</p>
+
+    <div class="cards-grid">
+
+      <!-- 1 Document Importer -->
+      <a href="/docs/" target="_blank" class="card">
+        <div class="card-top">
+          <div class="card-icon icon-yellow">📄</div>
+          <span class="card-badge badge-admin">🔒 ADMIN</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">
+            <span data-en="Knowledge Acquisition (Document Importer)" data-id="Akuisisi Pengetahuan (Pengimpor Dokumen)">Document Importer</span>
+            <svg class="card-arrow" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 12L12 3M12 3H6M12 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="card-desc"
+               data-en="Upload PDF documents to expand the chatbot's RAG knowledge base. Password protected."
+               data-id="Unggah dokumen PDF untuk memperluas basis pengetahuan RAG chatbot. Dilindungi kata sandi.">
+            Upload PDF documents to expand the chatbot's RAG knowledge base. Password protected.
+          </div>
+        </div>
+      </a>
+
+      <!-- 2 Drive Sync -->
+      <a href="/drive/" target="_blank" class="card">
+        <div class="card-top">
+          <div class="card-icon icon-orange">🔄</div>
+          <span class="card-badge badge-admin">🔒 ADMIN</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">
+            <span data-en="Knowledge Storage" data-id="Penyimpanan Pengetahuan">Drive Database Sync</span>
+            <svg class="card-arrow" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 12L12 3M12 3H6M12 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="card-desc"
+               data-en="Trigger database update from Google Drive — Excel &amp; image data processed into MongoDB for RAG. Requires admin login."
+               data-id="Picu pembaruan basis data dari Google Drive — data Excel &amp; gambar diproses ke MongoDB untuk RAG. Memerlukan login admin.">
+            Trigger database update from Google Drive — Excel &amp; image data processed into MongoDB for RAG. Requires admin login.
+          </div>
+        </div>
+      </a>
+
+      <!-- 3 Chatbot -->
+      <a href="/chat/" target="_blank" class="card">
+        <div class="card-top">
+          <div class="card-icon icon-cyan">💬</div>
+          <span class="card-badge badge-public">PUBLIC</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">
+            <span data-en="Quality Checking and RAG Chatbot" data-id="Pengecekan Kualitas dan Chatbot RAG">RAG Chatbot</span>
+            <svg class="card-arrow" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 12L12 3M12 3H6M12 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="card-desc"
+               data-en="Main question-answering interface. Accesses MongoDB &amp; PDF store, with web search fallback when local data is insufficient."
+               data-id="Antarmuka tanya jawab utama. Mengakses MongoDB &amp; penyimpanan PDF, dengan fallback pencarian web bila data lokal tidak cukup.">
+            Main question-answering interface. Accesses MongoDB &amp; PDF store, with web search fallback when local data is insufficient.
+          </div>
+        </div>
+      </a>
+
+      <!-- 4 Ontology Updater -->
+      <a href="/updater/" target="_blank" class="card">
+        <div class="card-top">
+          <div class="card-icon icon-purple">🧬</div>
+          <span class="card-badge badge-admin">🔒 ADMIN</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">
+            <span data-en="Knowledge Categorization" data-id="Pengkategorian Pengetahuan">Ontology Updater</span>
+            <svg class="card-arrow" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 12L12 3M12 3H6M12 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="card-desc"
+               data-en="Populate an existing OWL ontology using structured data. Input format must follow the naming guide (see below)."
+               data-id="Isi ontologi OWL yang ada menggunakan data terstruktur. Format input harus mengikuti panduan penamaan (lihat di bawah).">
+            Populate an existing OWL ontology using structured data. Input format must follow the naming guide (see below).
+          </div>
+        </div>
+      </a>
+
+      <!-- 5 Ontology Refiner -->
+      <a href="/refiner/" target="_blank" class="card">
+        <div class="card-top">
+          <div class="card-icon icon-blue">✏️</div>
+          <span class="card-badge badge-admin">🔒 ADMIN</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">
+            <span data-en="Perbaikan Pengetahuan" data-id="Perbaikan Pengetahuan">Ontology Refiner</span>
+            <svg class="card-arrow" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 12L12 3M12 3H6M12 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="card-desc"
+               data-en="Edit &amp; refine populated ontologies — rename or delete individuals &amp; assertions, and run consistency checks."
+               data-id="Edit &amp; sempurnakan ontologi yang telah diisi — ganti nama atau hapus individu &amp; asersi, dan jalankan pengecekan konsistensi.">
+            Edit &amp; refine populated ontologies — rename or delete individuals &amp; assertions, and run consistency checks.
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Documentation -->
+    <p class="section-label" data-en="Documentation" data-id="Dokumentasi">Documentation</p>
+
+    <div class="guide-card">
+      <div class="guide-header" onclick="togglePdf()">
+        <div class="guide-header-left">
+          <div class="card-icon icon-yellow" style="width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📋</div>
+          <div>
+            <div class="guide-title" data-en="Data Naming &amp; Formatting Guide" data-id="Panduan Penamaan &amp; Format Data">Data Naming &amp; Formatting Guide</div>
+            <div class="guide-meta"
+                 data-en="Required format for Drive data used in Ontology Updater &amp; Drive Sync."
+                 data-id="Format yang diperlukan untuk data Drive yang digunakan di Pembaruan Ontologi &amp; Sinkronisasi Drive.">
+              Required format for Drive data used in Ontology Updater &amp; Drive Sync.
+            </div>
+          </div>
+        </div>
+        <svg class="chevron" id="chevron" width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M4.5 6.75L9 11.25L13.5 6.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="pdf-wrap" id="pdfWrap">
+        <iframe id="pdfFrame" title="Naming Guide PDF" allowfullscreen></iframe>
+        <p class="pdf-fallback">
+          <span data-en="If the PDF doesn't load," data-id="Jika PDF tidak dimuat,">If the PDF doesn't load,</span>
+          <a href="/namingguide.pdf" target="_blank"
+             data-en="open it directly ↗" data-id="buka langsung ↗">open it directly ↗</a>
+        </p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const PDF_URL = '/namingguide.pdf';
+  let pdfLoaded = false, isOpen = false;
+
+  function togglePdf() {
+    isOpen = !isOpen;
+    document.getElementById('pdfWrap').classList.toggle('open', isOpen);
+    document.getElementById('chevron').classList.toggle('open', isOpen);
+    if (isOpen && !pdfLoaded) {
+      document.getElementById('pdfFrame').src = PDF_URL;
+      pdfLoaded = true;
+    }
+  }
+
+  let currentLang = localStorage.getItem('lang') || 'en';
+
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-id').classList.toggle('active', lang === 'id');
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+  }
+
+  setLang(currentLang);
+</script>
+</body>
+</html>

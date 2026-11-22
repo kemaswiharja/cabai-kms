@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/admin-auth.js"></script>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ontology Updater</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ── Reset & vars ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0a0c10;
+  --panel:    #111318;
+  --border:   #1e2230;
+  --border2:  #2a3048;
+  --green:    #4fffb0;
+  --blue:     #4db8ff;
+  --amber:    #ffb74d;
+  --red:      #ff5f5f;
+  --purple:   #c084fc;
+  --text:     #dde3f0;
+  --muted:    #5a6380;
+  --r:        12px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 16px 80px;
+}
+
+/* grid backdrop */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(79,255,176,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,255,176,.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+.page { position: relative; z-index: 1; width: 100%; max-width: 800px; }
+
+/* ── Header ───────────────────────────────────── */
+header { text-align: center; margin-bottom: 56px; }
+
+.wordmark {
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+
+.wordmark-icon {
+  width: 42px; height: 42px;
+  background: var(--green);
+  border-radius: 10px;
+  display: grid; place-items: center;
+  box-shadow: 0 0 24px rgba(79,255,176,.3);
+}
+.wordmark-icon svg { width: 22px; height: 22px; }
+
+.wordmark-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 800; line-height: 1.15;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--text) 0%, #8899cc 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tagline {
+  color: var(--muted); font-size: 1rem; margin-top: 10px; line-height: 1.6;
+}
+
+/* ── Card ─────────────────────────────────────── */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px 28px 32px;
+  margin-bottom: 16px;
+}
+
+.card-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 1.8px; text-transform: uppercase;
+  color: var(--green);
+  display: flex; align-items: center; gap: 7px;
+  margin-bottom: 22px;
+}
+.card-label::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  flex-shrink: 0;
+}
+
+/* ── File drop zones ──────────────────────────── */
+.drop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 500px) { .drop-grid { grid-template-columns: 1fr; } }
+
+.drop {
+  position: relative;
+  border: 1.5px dashed var(--border2);
+  border-radius: 10px;
+  padding: 32px 16px 26px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  overflow: hidden;
+}
+.drop input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.drop:hover, .drop.over { border-color: var(--green); background: rgba(79,255,176,.04); }
+.drop.filled { border-style: solid; border-color: var(--green); background: rgba(79,255,176,.06); }
+
+/* OWL zone optional state */
+.drop.optional-default {
+  border-style: dashed;
+  border-color: var(--purple);
+  background: rgba(192,132,252,.04);
+  cursor: pointer;
+}
+.drop.optional-default:hover { border-color: var(--purple); background: rgba(192,132,252,.08); }
+.drop.optional-default .drop-title { color: var(--purple); }
+.drop.optional-default .drop-sub   { color: var(--purple); opacity: .5; }
+
+.drop-emoji { font-size: 2rem; display: block; margin-bottom: 10px; pointer-events: none; }
+
+.drop-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--muted); pointer-events: none;
+}
+.drop-sub {
+  font-size: 0.7rem; color: var(--muted); opacity: .6;
+  margin-top: 4px; pointer-events: none;
+}
+.drop-filename {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; color: var(--green);
+  margin-top: 9px; word-break: break-all;
+  pointer-events: none;
+  max-width: 180px; margin-inline: auto;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── Mode badge ───────────────────────────────── */
+.mode-banner {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-top: 14px;
+  font-size: .82rem; line-height: 1.5;
+  border: 1px solid;
+  transition: all .3s;
+}
+.mode-banner.mode-default {
+  background: rgba(192,132,252,.07);
+  border-color: rgba(192,132,252,.25);
+  color: #ddd0ff;
+}
+.mode-banner.mode-user {
+  background: rgba(79,255,176,.06);
+  border-color: rgba(79,255,176,.25);
+  color: #c0ffe0;
+}
+.mode-banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.mode-banner strong { font-weight: 700; display: block; margin-bottom: 2px; }
+.mode-banner small  { font-size: .72rem; opacity: .7; }
+
+.owl-clear-btn {
+  margin-left: auto; flex-shrink: 0; align-self: center;
+  background: none; border: 1px solid rgba(79,255,176,.3);
+  color: var(--green); border-radius: 6px;
+  font-family: 'Space Mono', monospace; font-size: .65rem;
+  padding: 5px 10px; cursor: pointer; letter-spacing: .5px;
+  transition: background .15s, border-color .15s;
+  white-space: nowrap;
+}
+.owl-clear-btn:hover { background: rgba(79,255,176,.1); border-color: var(--green); }
+
+/* ── Toggle option ────────────────────────────── */
+.option-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.option-row:last-child { margin-bottom: 0; }
+
+.option-info { flex: 1; }
+.option-name { font-size: .9rem; font-weight: 600; }
+.option-desc { font-size: .78rem; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+.switch { flex-shrink: 0; margin-left: 20px; }
+.switch input { display: none; }
+.switch-track {
+  display: block; width: 44px; height: 24px;
+  background: var(--border2); border-radius: 24px;
+  position: relative; cursor: pointer;
+  transition: background .2s;
+}
+.switch-track::after {
+  content: ''; position: absolute;
+  width: 18px; height: 18px;
+  background: white; border-radius: 50%;
+  top: 3px; left: 3px;
+  transition: transform .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+.switch input:checked + .switch-track { background: var(--green); }
+.switch input:checked + .switch-track::after { transform: translateX(20px); }
+
+/* ── Run button ───────────────────────────────── */
+.run-btn {
+  width: 100%; padding: 18px;
+  background: var(--green); color: #0a0c10;
+  border: none; border-radius: var(--r);
+  font-family: 'Space Mono', monospace;
+  font-size: .9rem; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s, opacity .15s;
+  position: relative; overflow: hidden;
+}
+.run-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(79,255,176,.28);
+}
+.run-btn:active:not(:disabled) { transform: translateY(0); }
+.run-btn:disabled { opacity: .35; cursor: not-allowed; }
+.run-btn.busy { color: transparent; }
+.run-btn.busy::after {
+  content: '';
+  position: absolute; width: 20px; height: 20px;
+  border: 2px solid rgba(0,0,0,.2);
+  border-top-color: #0a0c10;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+/* ── Log terminal ─────────────────────────────── */
+#log-card { display: none; }
+#log-card.show { display: block; }
+
+.terminal {
+  background: #060709;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: .75rem;
+  line-height: 1.7;
+  height: 320px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar */
+.terminal::-webkit-scrollbar { width: 6px; }
+.terminal::-webkit-scrollbar-track { background: transparent; }
+.terminal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+.log-line { display: block; }
+.log-msg { display: block; }
+.log-msg.info    { color: #8899cc; }
+.log-msg.success { color: var(--green); }
+.log-msg.warn    { color: var(--amber); }
+.log-msg.error   { color: var(--red); }
+.log-msg.dim     { color: var(--muted); }
+
+/* progress bar */
+.progress-wrap { margin-top: 14px; }
+.progress-meta {
+  display: flex; justify-content: space-between;
+  font-family: 'Space Mono', monospace; font-size: .68rem;
+  color: var(--muted); margin-bottom: 6px;
+}
+.progress-track {
+  height: 4px; background: var(--border); border-radius: 2px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: var(--green); border-radius: 2px;
+  width: 0%; transition: width .4s ease;
+}
+.progress-indeterminate .progress-fill {
+  animation: progress-slide 1.4s ease infinite;
+  width: 40% !important;
+}
+@keyframes progress-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+/* ── Results ──────────────────────────────────── */
+#results-card { display: none; }
+#results-card.show { display: block; }
+
+/* mode chip in results */
+.result-mode-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px; border-radius: 99px;
+  font-family: 'Space Mono', monospace; font-size: .65rem;
+  letter-spacing: .8px; text-transform: uppercase;
+  margin-bottom: 18px;
+  border: 1px solid;
+}
+.result-mode-chip.chip-default {
+  background: rgba(192,132,252,.1); border-color: rgba(192,132,252,.3); color: var(--purple);
+}
+.result-mode-chip.chip-user {
+  background: rgba(79,255,176,.08); border-color: rgba(79,255,176,.25); color: var(--green);
+}
+.result-mode-chip::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor; box-shadow: 0 0 6px currentColor;
+  flex-shrink: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+@media (max-width: 500px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+
+.stat {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 10px;
+  text-align: center;
+}
+.stat-n {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.8rem; font-weight: 700;
+  color: var(--green); line-height: 1;
+}
+.stat-l { font-size: .68rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .4px; }
+
+.dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+@media (max-width: 500px) { .dl-grid { grid-template-columns: 1fr; } }
+
+.dl-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 15px; border-radius: var(--r);
+  font-family: 'Space Mono', monospace; font-size: .75rem; font-weight: 700;
+  letter-spacing: .8px; text-transform: uppercase; text-decoration: none;
+  cursor: pointer; transition: all .2s; border: 1.5px solid;
+}
+.dl-owl  { border-color: var(--green);  color: var(--green);  background: rgba(79,255,176,.05); }
+.dl-owl:hover  { background: rgba(79,255,176,.12); box-shadow: 0 4px 16px rgba(79,255,176,.15); }
+.dl-json { border-color: var(--blue);   color: var(--blue);   background: rgba(77,184,255,.05); }
+.dl-json:hover { background: rgba(77,184,255,.12); box-shadow: 0 4px 16px rgba(77,184,255,.15); }
+
+/* ── Rec list ─────────────────────────────────── */
+.rec-heading {
+  font-family: 'Space Mono', monospace;
+  font-size: .65rem; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+}
+.rec-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.rec-item {
+  background: var(--bg); border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 7px; padding: 10px 14px;
+}
+.rec-name { font-family: 'Space Mono', monospace; font-size: .75rem; color: var(--blue); }
+.rec-meta { font-size: .7rem; color: var(--muted); margin-top: 2px; }
+
+/* ── Error alert ──────────────────────────────── */
+.alert {
+  display: none; padding: 14px 16px;
+  border-radius: 8px; font-size: .85rem; margin-top: 14px;
+}
+.alert.show { display: block; }
+.alert-error { background: rgba(255,95,95,.08); border: 1px solid rgba(255,95,95,.3); color: #ff8f8f; }
+
+/* ── Schema button ────────────────────────────── */
+.schema-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: 99px;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  font-size: .68rem; letter-spacing: .8px; text-transform: uppercase;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, background .2s;
+  margin-top: 14px;
+}
+.schema-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(192,132,252,.06); }
+.schema-btn svg { flex-shrink: 0; }
+
+/* ── Modal overlay ────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(5,6,10,.85);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  width: 100%; max-width: 680px;
+  max-height: 88vh;
+  display: flex; flex-direction: column;
+  transform: translateY(18px) scale(.97);
+  transition: transform .25s;
+  overflow: hidden;
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.modal-title {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--purple);
+  display: flex; align-items: center; gap: 8px;
+}
+.modal-title::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--purple); box-shadow: 0 0 8px var(--purple);
+}
+.modal-close {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 1.2rem; line-height: 1;
+  padding: 4px 8px; border-radius: 6px;
+  transition: color .15s, background .15s;
+}
+.modal-close:hover { color: var(--text); background: var(--border); }
+
+.modal-body {
+  overflow-y: auto; padding: 24px;
+  flex: 1;
+}
+.modal-body::-webkit-scrollbar { width: 6px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* Loading state */
+.modal-loading {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  padding: 40px 0; color: var(--muted);
+  font-family: 'Space Mono', monospace; font-size: .75rem;
+}
+.spinner {
+  width: 28px; height: 28px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--purple);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+/* Schema sections */
+.schema-section { margin-bottom: 28px; }
+.schema-section:last-child { margin-bottom: 0; }
+
+.schema-section-title {
+  font-family: 'Space Mono', monospace;
+  font-size: .62rem; letter-spacing: 1.4px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.schema-section-title::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+.schema-chips {
+  display: flex; flex-wrap: wrap; gap: 7px;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  border-radius: 99px;
+  font-family: 'Space Mono', monospace; font-size: .68rem;
+  border: 1px solid;
+}
+.chip-class    { border-color: rgba(192,132,252,.3); color: var(--purple); background: rgba(192,132,252,.07); }
+.chip-dprop    { border-color: rgba(79,255,176,.25); color: var(--green);  background: rgba(79,255,176,.06); }
+.chip-oprop    { border-color: rgba(77,184,255,.25); color: var(--blue);   background: rgba(77,184,255,.06); }
+.chip-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+}
+
+/* Individual tree preview */
+.tree-wrap {
+  background: #060709;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem; line-height: 1.9;
+  overflow-x: auto;
+}
+.tree-line { display: flex; align-items: baseline; gap: 0; white-space: nowrap; }
+.tree-indent { color: var(--border2); user-select: none; }
+.tree-class  { color: var(--purple); }
+.tree-prop   { color: var(--green); }
+.tree-val    { color: #8899cc; }
+.tree-op     { color: var(--blue); }
+.tree-comment { color: var(--muted); font-style: italic; }
+
+/* Stats row in modal */
+.modal-stats {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
+}
+.modal-stat {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 16px;
+  text-align: center; flex: 1; min-width: 80px;
+}
+.modal-stat-n {
+  font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700;
+  color: var(--purple); line-height: 1;
+}
+.modal-stat-l { font-size: .65rem; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: .4px; }
+
+.schema-error {
+  padding: 16px; border-radius: 8px;
+  background: rgba(255,95,95,.07); border: 1px solid rgba(255,95,95,.2);
+  color: #ff8f8f; font-size: .82rem;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <div class="wordmark">
+      <div class="wordmark-icon">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="3.5" r="2.5" fill="#0a0c10"/>
+          <circle cx="3.5" cy="17" r="2.5" fill="#0a0c10"/>
+          <circle cx="18.5" cy="17" r="2.5" fill="#0a0c10"/>
+          <line x1="11" y1="6" x2="3.5" y2="14.5" stroke="#0a0c10" stroke-width="1.5"/>
+          <line x1="11" y1="6" x2="18.5" y2="14.5" stroke="#0a0c10" stroke-width="1.5"/>
+          <line x1="3.5" y1="17" x2="18.5" y2="17" stroke="#0a0c10" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="wordmark-text">OntologyUpdater</span>
+    </div>
+    <h1>Populate your OWL ontology<br/>from CSV data</h1>
+    <p class="tagline">Upload your files — the server maps each row to your ontology<br/>and returns a ready-to-use enriched .owl file</p>
+    <button class="schema-btn" id="schema-btn">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <circle cx="6.5" cy="2"  r="1.5" stroke="currentColor" stroke-width="1.3"/>
+        <circle cx="2"   cy="10" r="1.5" stroke="currentColor" stroke-width="1.3"/>
+        <circle cx="11"  cy="10" r="1.5" stroke="currentColor" stroke-width="1.3"/>
+        <line x1="6.5" y1="3.5" x2="2.7"  y2="8.6" stroke="currentColor" stroke-width="1.2"/>
+        <line x1="6.5" y1="3.5" x2="10.3" y2="8.6" stroke="currentColor" stroke-width="1.2"/>
+        <line x1="3.5"  y1="10" x2="9.5"  y2="10"  stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      View default ontology structure
+    </button>
+  </header>
+
+  <!-- Schema modal -->
+  <div class="modal-overlay" id="schema-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title-text">Default Ontology Structure</div>
+        <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <div class="modal-loading">
+          <div class="spinner"></div>
+          <span>Fetching ontology schema&hellip;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ① Files -->
+  <div class="card">
+    <div class="card-label">Step 1 — Upload files</div>
+    <div class="drop-grid">
+
+      <!-- CSV (required) -->
+      <div class="drop" id="csv-zone">
+        <input type="file" id="csv-input" accept=".csv" />
+        <span class="drop-emoji">📊</span>
+        <div class="drop-title">CSV Data</div>
+        <div class="drop-sub">Drop or click · .csv</div>
+        <div class="drop-filename" id="csv-fname"></div>
+      </div>
+
+      <!-- OWL (optional) -->
+      <div class="drop optional-default" id="owl-zone">
+        <input type="file" id="owl-input" accept=".owl" />
+        <span class="drop-emoji" id="owl-emoji">🗄️</span>
+        <div class="drop-title" id="owl-title">Default Ontology</div>
+        <div class="drop-sub" id="owl-sub">Click to upload your own · .owl</div>
+        <div class="drop-filename" id="owl-fname"></div>
+      </div>
+
+    </div>
+
+    <!-- Mode banner -->
+    <div class="mode-banner mode-default" id="mode-banner">
+      <span class="mode-banner-icon">🗄️</span>
+      <div>
+        <strong>Using server default ontology</strong>
+        <small>The built-in ontology will be updated with your CSV data and saved permanently in MongoDB.</small>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ② Options -->
+  <div class="card">
+    <div class="card-label">Step 2 — Options</div>
+
+    <div class="option-row">
+      <div class="option-info">
+        <div class="option-name">Generate Recommendations</div>
+        <div class="option-desc">After processing, ask the open-source LLM to suggest new classes or properties for unmapped columns</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="opt-rec" checked />
+        <span class="switch-track"></span>
+      </label>
+    </div>
+
+  </div>
+
+  <!-- ③ Run -->
+  <div class="card">
+    <div class="card-label">Step 3 — Process</div>
+    <button class="run-btn" id="run-btn" disabled>Run Ontology Update</button>
+    <div class="alert alert-error" id="error-box"></div>
+  </div>
+
+  <!-- Live log -->
+  <div class="card" id="log-card">
+    <div class="card-label">Processing log</div>
+    <div class="terminal" id="terminal"></div>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="prog-label">Waiting…</span>
+      </div>
+      <div class="progress-track" id="prog-track">
+        <div class="progress-fill" id="prog-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card" id="results-card">
+    <div class="card-label">Results</div>
+    <div id="result-mode-chip-wrap"></div>
+    <div class="stats-grid" id="stats-grid"></div>
+    <div class="dl-grid">
+      <a class="dl-btn dl-owl" id="dl-owl" href="#" download>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Download updated .owl
+      </a>
+      <a class="dl-btn dl-json" id="dl-json" href="#" download>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Download recommendations
+      </a>
+    </div>
+    <div id="rec-section"></div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const BACKEND_URL = "/api/updater";
+// ─────────────────────────────────────────────────────────────────────────────
+
+let csvFile = null, owlFile = null;
+let owlFilename = "ontology_updated.owl";
+let owlChunks = [];
+let pendingResult = null;
+let activeMode = 'default'; // 'default' | 'user'
+
+// ── OWL zone state helpers ────────────────────────────────────────────────────
+const owlZone   = document.getElementById('owl-zone');
+const owlEmoji  = document.getElementById('owl-emoji');
+const owlTitle  = document.getElementById('owl-title');
+const owlSub    = document.getElementById('owl-sub');
+const owlFname  = document.getElementById('owl-fname');
+const modeBanner = document.getElementById('mode-banner');
+
+function setOwlDefault() {
+  owlFile = null;
+  owlZone.classList.remove('filled');
+  owlZone.classList.add('optional-default');
+  owlEmoji.textContent = '🗄️';
+  owlTitle.textContent = 'Default Ontology';
+  owlTitle.style.color = '';
+  owlSub.textContent = 'Click to upload your own · .owl';
+  owlFname.textContent = '';
+  // remove clear button if present
+  const existing = owlZone.querySelector('.owl-clear-btn');
+  if (existing) existing.remove();
+
+  modeBanner.className = 'mode-banner mode-default';
+  modeBanner.innerHTML = `
+    <span class="mode-banner-icon">🗄️</span>
+    <div>
+      <strong>Using server default ontology</strong>
+      <small>The built-in ontology will be updated with your CSV data and saved permanently in MongoDB.</small>
+    </div>`;
+}
+
+function setOwlUser(file) {
+  owlFile = file;
+  owlZone.classList.remove('optional-default');
+  owlZone.classList.add('filled');
+  owlEmoji.textContent = '🕸️';
+  owlTitle.textContent = 'Your OWL';
+  owlTitle.style.color = '';
+  owlSub.textContent = '';
+  owlFname.textContent = file.name;
+
+  // Add clear button inside zone so user can revert
+  if (!owlZone.querySelector('.owl-clear-btn')) {
+    const btn = document.createElement('button');
+    btn.className = 'owl-clear-btn';
+    btn.textContent = '✕ use default';
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      e.preventDefault();
+      setOwlDefault();
+      checkReady();
+    });
+    owlZone.appendChild(btn);
+  }
+
+  modeBanner.className = 'mode-banner mode-user';
+  modeBanner.innerHTML = `
+    <span class="mode-banner-icon">🕸️</span>
+    <div>
+      <strong>Using your uploaded OWL</strong>
+      <small>The default ontology will NOT be modified. Your file is ephemeral — download the result before refreshing.</small>
+    </div>`;
+}
+
+// ── Drop zones ────────────────────────────────────────────────────────────────
+function setupDrop(zoneId, inputId, ext) {
+  const zone  = document.getElementById(zoneId);
+  const input = document.getElementById(inputId);
+  const fname = document.getElementById(`${ext}-fname`);
+
+  function set(f) {
+    if (!f) return;
+    if (ext === 'csv') {
+      csvFile = f;
+      zone.classList.add('filled');
+      fname.textContent = f.name;
+    } else {
+      setOwlUser(f);
+    }
+    checkReady();
+  }
+
+  input.addEventListener('change', e => set(e.target.files[0]));
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('over');
+    set(e.dataTransfer.files[0]);
+  });
+}
+
+setupDrop('csv-zone', 'csv-input', 'csv');
+setupDrop('owl-zone', 'owl-input', 'owl');
+
+// Initialise OWL zone to default state
+setOwlDefault();
+
+// ── Ready check — only CSV is required ───────────────────────────────────────
+const runBtn = document.getElementById('run-btn');
+function checkReady() { runBtn.disabled = !csvFile; }
+
+// ── Logging ───────────────────────────────────────────────────────────────────
+const terminal = document.getElementById('terminal');
+
+function addLog(line, forceLevel) {
+  let level = forceLevel || 'info';
+  if (!forceLevel) {
+    if (/✓|✦|Done|Success|created|loaded|serialized|generated/i.test(line)) level = 'success';
+    else if (/⚠|warning|skipped|unmapped|\?/i.test(line)) level = 'warn';
+    else if (/✗|error|failed|fatal/i.test(line)) level = 'error';
+    else if (/={3,}|-{3,}|SUMMARY|PROCESS/i.test(line)) level = 'dim';
+  }
+  const div = document.createElement('div');
+  div.className = 'log-line';
+  div.innerHTML = `<span class="log-msg ${level}">${escHtml(line)}</span>`;
+  terminal.appendChild(div);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Run ───────────────────────────────────────────────────────────────────────
+runBtn.addEventListener('click', async () => {
+  const errorBox = document.getElementById('error-box');
+  errorBox.classList.remove('show');
+  document.getElementById('results-card').classList.remove('show');
+  terminal.innerHTML = '';
+  owlChunks = [];
+  pendingResult = null;
+  activeMode = owlFile ? 'user' : 'default';
+
+  document.getElementById('log-card').classList.add('show');
+  document.getElementById('log-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  const modeLabel = activeMode === 'default' ? 'default ontology' : `user OWL (${owlFile.name})`;
+  addLog(`Mode: ${modeLabel}`);
+  addLog('Sending files to backend — processing may take a while…');
+
+  runBtn.disabled = true;
+  runBtn.classList.add('busy');
+  document.getElementById('prog-label').textContent = 'Processing…';
+  document.getElementById('prog-fill').style.width = '0%';
+  document.getElementById('prog-track').classList.add('progress-indeterminate');
+
+  const fd = new FormData();
+  fd.append('csv_file', csvFile);
+  // Only append owl_file when user supplied one; omitting it triggers default mode on backend
+  if (owlFile) fd.append('owl_file', owlFile);
+  fd.append('enable_recommendations', document.getElementById('opt-rec').checked ? 'true' : 'false');
+
+  try {
+    let resp;
+    try {
+      resp = await fetch(`${BACKEND_URL}/update-ontology`, { method: 'POST', body: fd });
+    } catch (networkErr) {
+      throw new Error(`Could not reach backend: ${networkErr.message}`);
+    }
+
+    if (!resp.ok) {
+      let detail = `HTTP ${resp.status}`;
+      try { const j = await resp.json(); detail = j.detail || detail; } catch {}
+      throw new Error(detail);
+    }
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+
+      const parts = buf.split('\n\n');
+      buf = parts.pop();
+
+      for (const part of parts) {
+        const line = part.trim();
+        if (!line.startsWith('data:')) continue;
+        let payload;
+        try { payload = JSON.parse(line.slice(5).trim()); } catch (e) {
+          addLog(`✗ SSE parse error: ${e.message}`, 'error');
+          continue;
+        }
+
+        if (payload.type === 'meta') {
+          owlFilename = payload.owl_filename || owlFilename;
+          // Use mode from backend if available
+          if (payload.mode) activeMode = payload.mode;
+        } else if (payload.type === 'log') {
+          addLog(payload.msg);
+        } else if (payload.type === 'error') {
+          addLog(`✗ ${payload.msg}`, 'error');
+          document.getElementById('error-box').textContent = `Error: ${payload.msg}`;
+          document.getElementById('error-box').classList.add('show');
+        } else if (payload.type === 'done') {
+          pendingResult = payload;
+          renderResults(payload);
+        } else if (payload.type === 'file_chunk') {
+          owlChunks.push(payload.chunk);
+          if (payload.done) {
+            const owl_file_b64 = owlChunks.join('');
+            owlChunks = [];
+            setOwlDownload(owl_file_b64);
+            addLog('✓ OWL file ready for download', 'success');
+          }
+        }
+      }
+    }
+
+  } catch (err) {
+    document.getElementById('error-box').textContent = `Error: ${err.message}`;
+    document.getElementById('error-box').classList.add('show');
+    addLog(`✗ ${err.message}`, 'error');
+  } finally {
+    runBtn.classList.remove('busy');
+    runBtn.disabled = false;
+    document.getElementById('prog-label').textContent = 'Done';
+    document.getElementById('prog-track').classList.remove('progress-indeterminate');
+    document.getElementById('prog-fill').style.width = '100%';
+  }
+});
+
+// ── Render results ────────────────────────────────────────────────────────────
+function renderResults({ stats, recommendations }) {
+  // Mode chip
+  const chipWrap = document.getElementById('result-mode-chip-wrap');
+  if (activeMode === 'default') {
+    chipWrap.innerHTML = `<div class="result-mode-chip chip-default">Default ontology updated &amp; saved</div>`;
+  } else {
+    chipWrap.innerHTML = `<div class="result-mode-chip chip-user">User OWL — default unchanged · download before refreshing</div>`;
+  }
+
+  // Stats grid
+  const grid = document.getElementById('stats-grid');
+  const items = [
+    ['total_rows',            'Total Rows'],
+    ['successful',            'Processed'],
+    ['new_cabai',             'New Cabai'],
+    ['total_properties_added','Props Added'],
+    ['triples_added',         'Triples Added'],
+    ['new_properties_created','New Props'],
+  ];
+  grid.innerHTML = items.map(([k, l]) =>
+    `<div class="stat"><div class="stat-n">${stats[k] ?? 0}</div><div class="stat-l">${l}</div></div>`
+  ).join('');
+
+  // OWL download button — disabled until file chunks arrive
+  const dlOwl = document.getElementById('dl-owl');
+  dlOwl.style.opacity = '0.4';
+  dlOwl.style.pointerEvents = 'none';
+  dlOwl.textContent = '⏳ Receiving .owl file…';
+
+  // JSON download
+  const recJson = JSON.stringify(recommendations, null, 2);
+  const recBlob = new Blob([recJson], { type: 'application/json' });
+  const dlJson = document.getElementById('dl-json');
+  dlJson.href = URL.createObjectURL(recBlob);
+  dlJson.download = 'ontology_recommendations.json';
+
+  // Recommendations preview
+  const recSection = document.getElementById('rec-section');
+  const all = [
+    ...Object.entries(recommendations.new_classes       || {}).map(([k,v]) => ({ name: k, type: 'New Class',            conf: v.confidence })),
+    ...Object.entries(recommendations.new_properties    || {}).map(([k,v]) => ({ name: k, type: 'New Datatype Property', conf: v.confidence })),
+    ...Object.entries(recommendations.new_object_properties || {}).map(([k,v]) => ({ name: k, type: 'New Object Property',  conf: v.confidence })),
+  ].sort((a,b) => b.conf - a.conf).slice(0, 10);
+
+  const total = recommendations.summary?.total_recommendations ?? 0;
+
+  if (all.length > 0) {
+    recSection.innerHTML = `
+      <div class="rec-heading">Ontology recommendations (${total} total)</div>
+      <ul class="rec-list">
+        ${all.map(r => `
+          <li class="rec-item">
+            <div class="rec-name">${r.name}</div>
+            <div class="rec-meta">${r.type} &middot; Confidence ${(r.conf * 100).toFixed(0)}%</div>
+          </li>
+        `).join('')}
+      </ul>`;
+  } else {
+    recSection.innerHTML = `<div style="font-size:.85rem;color:var(--green)">✓ No new recommendations — all columns mapped to existing ontology properties.</div>`;
+  }
+
+  document.getElementById('results-card').classList.add('show');
+  document.getElementById('results-card').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── Enable OWL download once all chunks received ──────────────────────────────
+function setOwlDownload(owl_file_b64) {
+  const owlBytes = atob(owl_file_b64);
+  const owlArr = new Uint8Array(owlBytes.length);
+  for (let i = 0; i < owlBytes.length; i++) owlArr[i] = owlBytes.charCodeAt(i);
+  const owlBlob = new Blob([owlArr], { type: 'application/rdf+xml' });
+  const dlOwl = document.getElementById('dl-owl');
+  dlOwl.href = URL.createObjectURL(owlBlob);
+  dlOwl.download = owlFilename;
+  dlOwl.style.opacity = '';
+  dlOwl.style.pointerEvents = '';
+  dlOwl.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Download updated .owl`;
+}
+
+// =============================================================================
+// Schema modal
+// =============================================================================
+
+const schemaBtn   = document.getElementById('schema-btn');
+const schemaModal = document.getElementById('schema-modal');
+const modalClose  = document.getElementById('modal-close');
+const modalBody   = document.getElementById('modal-body');
+
+let schemaCache = null; // cache after first fetch
+
+schemaBtn.addEventListener('click', openSchemaModal);
+modalClose.addEventListener('click', closeSchemaModal);
+schemaModal.addEventListener('click', e => { if (e.target === schemaModal) closeSchemaModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSchemaModal(); });
+
+function openSchemaModal() {
+  schemaModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (!schemaCache) loadSchema();
+}
+
+function closeSchemaModal() {
+  schemaModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function loadSchema() {
+  modalBody.innerHTML = `
+    <div class="modal-loading">
+      <div class="spinner"></div>
+      <span>Fetching ontology schema&hellip;</span>
+    </div>`;
+
+  try {
+    // 1. Fetch status (fast — just metadata)
+    const statusRes = await fetch(`${BACKEND_URL}/ontology/status`);
+    if (!statusRes.ok) throw new Error(`Status endpoint returned ${statusRes.status}`);
+    const status = await statusRes.json();
+
+    // 2. Fetch and parse the OWL file to extract schema
+    const dlRes = await fetch(`${BACKEND_URL}/ontology/download-default`);
+    if (!dlRes.ok) throw new Error(`Download endpoint returned ${dlRes.status}`);
+    const owlText = await dlRes.text();
+
+    const schema = parseOwlSchema(owlText);
+    schemaCache = { status, schema };
+    renderSchema(status, schema, owlText);
+
+  } catch (err) {
+    modalBody.innerHTML = `
+      <div class="schema-error">
+        <strong>Could not load ontology</strong><br/>
+        ${escHtml(err.message)}<br/><br/>
+        <span style="font-size:.75rem;opacity:.7">Make sure the backend is running and DEFAULT_OWL_PATH is configured.</span>
+      </div>`;
+  }
+}
+
+// ── Parse OWL XML in-browser ──────────────────────────────────────────────────
+function parseOwlSchema(xmlText) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlText, 'application/xml');
+
+  const OWL  = 'http://www.w3.org/2002/07/owl#';
+  const RDF  = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+  const RDFS = 'http://www.w3.org/2000/01/rdf-schema#';
+
+  function localName(uri) {
+    if (!uri) return '?';
+    return uri.includes('#') ? uri.split('#').pop() : uri.split('/').pop();
+  }
+
+  function getAbout(el) {
+    return el.getAttributeNS(RDF, 'about') || el.getAttribute('rdf:about') || '';
+  }
+
+  function getType(el) {
+    const t = el.getAttributeNS(RDF, 'type') || el.getAttribute('rdf:type') || '';
+    return localName(t);
+  }
+
+  // Collect by rdf:type
+  const classes   = new Set();
+  const dProps    = new Set();
+  const oProps    = new Set();
+  const individuals = [];
+
+  // Check all elements with rdf:about
+  const allEls = doc.querySelectorAll('[*|about]');
+  allEls.forEach(el => {
+    const about = getAbout(el);
+    const name  = localName(about);
+    if (!name || name.startsWith('_') || name === '') return;
+
+    const tag = el.tagName.replace(/.*:/, '');
+
+    if (tag === 'Class') { classes.add(name); return; }
+    if (tag === 'DatatypeProperty') { dProps.add(name); return; }
+    if (tag === 'ObjectProperty')   { oProps.add(name); return; }
+
+    if (tag === 'NamedIndividual') {
+      // Collect type assertions
+      const types = [];
+      el.querySelectorAll('[*|type]').forEach(t => {
+        const v = t.getAttributeNS(RDF,'resource') || t.getAttribute('rdf:resource') || '';
+        if (v) types.push(localName(v));
+      });
+      // Also check rdf:type child elements
+      [...el.children].forEach(child => {
+        const childTag = child.tagName.replace(/.*:/, '');
+        if (childTag === 'type') {
+          const res = child.getAttributeNS(RDF,'resource') || child.getAttribute('rdf:resource') || '';
+          if (res) types.push(localName(res));
+        }
+      });
+
+      // Collect datatype properties on this individual
+      const props = {};
+      [...el.children].forEach(child => {
+        const childLocal = child.tagName.replace(/.*:/, '');
+        if (['type','label'].includes(childLocal)) return;
+        const val = child.textContent?.trim();
+        if (val) props[childLocal] = val;
+      });
+
+      individuals.push({ name, types, props });
+      return;
+    }
+  });
+
+  // Also look for Class/DatatypeProperty/ObjectProperty nested descriptions
+  doc.querySelectorAll('owl\\:Class, Class').forEach(el => {
+    const a = getAbout(el); if (a) classes.add(localName(a));
+  });
+  doc.querySelectorAll('owl\\:DatatypeProperty, DatatypeProperty').forEach(el => {
+    const a = getAbout(el); if (a) dProps.add(localName(a));
+  });
+  doc.querySelectorAll('owl\\:ObjectProperty, ObjectProperty').forEach(el => {
+    const a = getAbout(el); if (a) oProps.add(localName(a));
+  });
+
+  // Clean up — remove blank/unnamed entries
+  ['', '?', 'NamedIndividual', 'Class', 'DatatypeProperty', 'ObjectProperty', 'Ontology'].forEach(x => {
+    classes.delete(x); dProps.delete(x); oProps.delete(x);
+  });
+
+  return {
+    classes:    [...classes].sort(),
+    dProps:     [...dProps].sort(),
+    oProps:     [...oProps].sort(),
+    individuals: individuals.slice(0, 8), // show up to 8 sample individuals
+    totalIndividuals: individuals.length,
+  };
+}
+
+// ── Render schema into modal ──────────────────────────────────────────────────
+function renderSchema(status, schema, owlText) {
+  const sizeKb = (status.default_ontology_size_bytes / 1024).toFixed(1);
+
+  let html = `
+    <div class="modal-stats">
+      <div class="modal-stat">
+        <div class="modal-stat-n">${schema.classes.length}</div>
+        <div class="modal-stat-l">Classes</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-n">${schema.dProps.length}</div>
+        <div class="modal-stat-l">Data Props</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-n">${schema.oProps.length}</div>
+        <div class="modal-stat-l">Object Props</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-n">${schema.totalIndividuals}</div>
+        <div class="modal-stat-l">Individuals</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-n">${sizeKb}kb</div>
+        <div class="modal-stat-l">File Size</div>
+      </div>
+    </div>`;
+
+  // Classes
+  if (schema.classes.length > 0) {
+    html += `
+    <div class="schema-section">
+      <div class="schema-section-title">Classes</div>
+      <div class="schema-chips">
+        ${schema.classes.map(c => `<span class="chip chip-class"><span class="chip-dot"></span>${escHtml(c)}</span>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Datatype properties
+  if (schema.dProps.length > 0) {
+    html += `
+    <div class="schema-section">
+      <div class="schema-section-title">Datatype Properties</div>
+      <div class="schema-chips">
+        ${schema.dProps.map(p => `<span class="chip chip-dprop"><span class="chip-dot"></span>${escHtml(p)}</span>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Object properties
+  if (schema.oProps.length > 0) {
+    html += `
+    <div class="schema-section">
+      <div class="schema-section-title">Object Properties</div>
+      <div class="schema-chips">
+        ${schema.oProps.map(p => `<span class="chip chip-oprop"><span class="chip-dot"></span>${escHtml(p)}</span>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Individual tree preview
+  if (schema.individuals.length > 0) {
+    const treeLines = buildTreeLines(schema.individuals, schema);
+    html += `
+    <div class="schema-section">
+      <div class="schema-section-title">
+        Sample individuals
+        ${schema.totalIndividuals > schema.individuals.length
+          ? `<span style="color:var(--muted);font-size:.6rem;letter-spacing:0;text-transform:none">(showing ${schema.individuals.length} of ${schema.totalIndividuals})</span>`
+          : ''}
+      </div>
+      <div class="tree-wrap">${treeLines}</div>
+    </div>`;
+  } else {
+    html += `
+    <div class="schema-section">
+      <div class="schema-section-title">Individuals</div>
+      <div style="font-size:.8rem;color:var(--muted);padding:10px 0">
+        No individuals yet — run the CSV pipeline to populate the ontology.
+      </div>
+    </div>`;
+  }
+
+  // Raw OWL preview (collapsed)
+  html += `
+    <div class="schema-section">
+      <details style="cursor:pointer">
+        <summary style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);list-style:none;display:flex;align-items:center;gap:8px;padding-bottom:10px">
+          <span style="color:var(--border2)">&#9654;</span> Raw OWL (first 3000 chars)
+        </summary>
+        <div class="tree-wrap" style="max-height:220px;overflow-y:auto;white-space:pre;font-size:.65rem;color:#5a7a6a">${escHtml(owlText.slice(0, 3000))}${owlText.length > 3000 ? '\n… (truncated)' : ''}</div>
+      </details>
+    </div>`;
+
+  modalBody.innerHTML = html;
+}
+
+function buildTreeLines(individuals, schema) {
+  let out = '';
+  for (const ind of individuals) {
+    const typeLabel = ind.types.filter(t => !['NamedIndividual','Thing'].includes(t))[0] || 'NamedIndividual';
+    out += `<div class="tree-line"><span class="tree-class">◆ ${escHtml(ind.name)}</span><span style="color:var(--muted);font-size:.65rem"> : ${escHtml(typeLabel)}</span></div>`;
+    const propEntries = Object.entries(ind.props);
+    propEntries.forEach(([k, v], i) => {
+      const isLast = i === propEntries.length - 1;
+      const isOP = schema.oProps.includes(k);
+      out += `<div class="tree-line">`;
+      out += `<span class="tree-indent">${isLast ? '  └─ ' : '  ├─ '}</span>`;
+      out += isOP
+        ? `<span class="tree-op">${escHtml(k)}</span><span class="tree-indent"> → </span><span class="tree-val">${escHtml(String(v).slice(0, 40))}</span>`
+        : `<span class="tree-prop">${escHtml(k)}</span><span class="tree-indent">: </span><span class="tree-val">"${escHtml(String(v).slice(0, 40))}"</span>`;
+      out += `</div>`;
+    });
+    if (propEntries.length === 0) {
+      out += `<div class="tree-line"><span class="tree-indent">  └─ </span><span class="tree-comment">(no properties yet)</span></div>`;
+    }
+    out += `<div class="tree-line">&nbsp;</div>`;
+  }
+  return out;
+}
+</script>
+</body>
+</html>
