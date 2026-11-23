@@ -223,3 +223,32 @@ def test_seed_and_updater_feed_chatbot_db():
     assert db.specimens.find_one({"name_lower": "cakra putih"})["attributes"]["tinggi tanaman"] == "27 - 99 cm"
     ans = sse_events(c.post("/api/chat", json={"question": "Berapa tinggi tanaman cabai Madiun?"}).text)[-1]
     assert ans["source"].startswith("mongodb"), ans
+
+
+def test_llm_model_fallback(monkeypatch):
+    from lib import core
+
+    class R:
+        def __init__(self, code, text, content=None):
+            self.status_code, self.text, self._c = code, text, content
+
+        def json(self):
+            return {"choices": [{"message": {"content": self._c}}]}
+
+    calls = []
+
+    def fake_post(model, *a):
+        calls.append(model)
+        if model in ("llama-3.1-8b-instant", "llama-3.3-70b-versatile"):
+            return R(404, '{"error":{"code":"model_not_found"}}')
+        return R(200, "ok", f"jawaban dari {model}")
+
+    monkeypatch.setenv("CABAI_FAKE_LLM", "0")
+    monkeypatch.setattr(core, "LLM_API_KEY", "x")
+    monkeypatch.setattr(core, "_post", fake_post)
+    monkeypatch.setattr(core, "_dead_models", set())
+    assert core.llm_chat([{"role": "user", "content": "hi"}], fast=True) == "jawaban dari openai/gpt-oss-120b"
+    assert calls == ["llama-3.1-8b-instant", "llama-3.3-70b-versatile", "openai/gpt-oss-120b"]
+    calls.clear()
+    core.llm_chat([{"role": "user", "content": "hi"}], fast=True)
+    assert calls == ["openai/gpt-oss-120b"]  # dead models are skipped afterwards

@@ -60,32 +60,42 @@ def llm_available() -> bool:
     return bool(LLM_API_KEY) or "localhost" in LLM_BASE_URL or os.getenv("CABAI_FAKE_LLM") == "1"
 
 
+# Open-weight models tried in order when a model is unavailable for the account.
+FALLBACK_MODELS = [m for m in os.getenv(
+    "LLM_FALLBACK_MODELS", "llama-3.3-70b-versatile,openai/gpt-oss-120b,openai/gpt-oss-20b").split(",") if m]
+_dead_models: set[str] = set()
+
+
+def _post(model, messages, json_mode, temperature, max_tokens):
+    body = {"model": model, "messages": messages, "temperature": temperature, "max_tokens": max_tokens}
+    if json_mode:
+        body["response_format"] = {"type": "json_object"}
+    return httpx.post(f"{LLM_BASE_URL}/chat/completions",
+                      headers={"Authorization": f"Bearer {LLM_API_KEY}"}, json=body, timeout=45)
+
+
 def llm_chat(messages, *, fast=False, json_mode=False, temperature=0.2, max_tokens=1500) -> str:
     if os.getenv("CABAI_FAKE_LLM") == "1":  # test hook
         from tests import fake_llm  # type: ignore
         return fake_llm.respond(messages, json_mode)
     if not llm_available():
         raise LLMError("LLM_API_KEY belum diset (lihat README).")
-    body = {
-        "model": LLM_FAST_MODEL if fast else LLM_MODEL,
-        "messages": messages,
-        "temperature": temperature,
-        "max_tokens": max_tokens,
-    }
-    if json_mode:
-        body["response_format"] = {"type": "json_object"}
-    try:
-        r = httpx.post(
-            f"{LLM_BASE_URL}/chat/completions",
-            headers={"Authorization": f"Bearer {LLM_API_KEY}"},
-            json=body,
-            timeout=45,
-        )
-    except httpx.HTTPError as e:
-        raise LLMError(f"Tidak bisa menghubungi LLM: {e}") from e
-    if r.status_code >= 400:
-        raise LLMError(f"LLM error {r.status_code}: {r.text[:300]}")
-    return r.json()["choices"][0]["message"]["content"]
+    first = LLM_FAST_MODEL if fast else LLM_MODEL
+    chain = [m for m in dict.fromkeys([first, LLM_MODEL, *FALLBACK_MODELS]) if m not in _dead_models]
+    last = "tidak ada model yang tersedia"
+    for model in chain:
+        try:
+            r = _post(model, messages, json_mode, temperature, max_tokens)
+        except httpx.HTTPError as e:
+            raise LLMError(f"Tidak bisa menghubungi LLM: {e}") from e
+        if r.status_code == 404 or "model_not_found" in r.text or "model_decommissioned" in r.text:
+            _dead_models.add(model)
+            last = f"{model}: {r.text[:200]}"
+            continue
+        if r.status_code >= 400:
+            raise LLMError(f"LLM error {r.status_code}: {r.text[:300]}")
+        return r.json()["choices"][0]["message"]["content"] or ""
+    raise LLMError(f"Semua model LLM ditolak ({last})")
 
 
 def llm_json(messages, **kw) -> dict:
