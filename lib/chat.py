@@ -154,7 +154,10 @@ def run(question: str):
                 {"role": "system", "content":
                     "Anda PepperRAG, asisten pengetahuan cabai. Jawab HANYA dari konteks bernomor. Sertakan rujukan "
                     "[n] setelah setiap klaim. Jika konteks tidak cukup, katakan dengan jujur. Jawab dalam bahasa "
-                    "pertanyaan, ringkas dan terstruktur. Jangan tulis daftar referensi."},
+                    "pertanyaan, ringkas dan terstruktur. Jangan tulis daftar referensi. JANGAN pakai markdown "
+                    "(tabel |, **tebal**, # judul) karena tampilan tidak merendernya; pakai paragraf pendek dan "
+                    "daftar dengan tanda '- '. Untuk perbandingan, tulis satu baris per aspek, mis. "
+                    "'- Tinggi tanaman: Katokkon 60–155 cm; Kopay 60–89 cm [1]'."},
                 {"role": "user", "content": "KONTEKS:\n" + "\n\n".join(context_blocks)[:24000]
                                             + f"\n\nPERTANYAAN: {question}"}], max_tokens=1200)
         except LLMError as e:
