@@ -108,7 +108,7 @@ def run(question: str):
     db_enough = False
     if rows:
         lines = [f"- {r['name']}: " + "; ".join(f"{k}: {v}" for k, v in r["attributes"].items()) for r in rows]
-        block = "\n".join(lines)[:6000]
+        block = "\n".join(lines)[:5000]
         refs.append("Database spesimen Cabai (MongoDB): " + ", ".join(r["name"] for r in rows[:15]))
         context_blocks.append(f"[{len(refs)}] DATABASE SPESIMEN\n{block}")
         used.append("mongodb")
@@ -130,10 +130,14 @@ def run(question: str):
         yield _ev("5b", "processing", "Evaluating documents...")
         if hits:
             used.append("documents")
-            texts = []
-            for h in hits:
-                refs.append(f"{h['filename']}, halaman {h['page']}")
-                texts.append(f"[{len(refs)}] DOKUMEN {h['filename']} (hlm {h['page']})\n{h['text']}")
+            texts, by_page = [], {}
+            for h in hits:  # one reference per (file, page); passages of the same page share it
+                label = f"{h['filename']}, halaman {h['page']}"
+                if label not in by_page:
+                    refs.append(label)
+                    by_page[label] = len(refs)
+                n = by_page[label]
+                texts.append(f"[{n}] DOKUMEN {h['filename']} (hlm {h['page']})\n{h['text'][:1400]}")
             context_blocks += texts
             doc_enough = _sufficient(question, "\n".join(texts))
         yield _ev("5b", "complete", "Sufficient ✓" if doc_enough else "Need web search")
@@ -144,7 +148,7 @@ def run(question: str):
         results = web_search(f"cabai {question}", 4)
         for w in results:
             refs.append(f"{w['title']} — {w['url']}")
-            context_blocks.append(f"[{len(refs)}] WEB {w['title']}\n{w['snippet']}")
+            context_blocks.append(f"[{len(refs)}] WEB {w['title']}\n{w['snippet'][:700]}")
         if results:
             used.append("web")
         yield _ev("6", "complete", f"{len(results)} result(s)")
@@ -163,7 +167,7 @@ def run(question: str):
                     "(tabel |, **tebal**, # judul) karena tampilan tidak merendernya; pakai paragraf pendek dan "
                     "daftar dengan tanda '- '. Untuk perbandingan, tulis satu baris per aspek, mis. "
                     "'- Tinggi tanaman: Katokkon 60–155 cm; Kopay 60–89 cm [1]'."},
-                {"role": "user", "content": "KONTEKS:\n" + "\n\n".join(context_blocks)[:12000]
+                {"role": "user", "content": "KONTEKS:\n" + "\n\n".join(context_blocks)
                                             + f"\n\nPERTANYAAN: {question}"}], max_tokens=900)
         except LLMError as e:
             answer = f"Gagal menyusun jawaban: {e}"

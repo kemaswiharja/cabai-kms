@@ -315,3 +315,26 @@ def test_rate_limit_wait_then_next_model(monkeypatch):
     import pytest
     with pytest.raises(core.LLMError, match="Kuota gratis"):
         core.llm_chat([{"role": "user", "content": "x"}])
+
+
+def test_web_context_not_truncated_and_refs_deduped(monkeypatch):
+    """Web results come last; they must still reach the answer prompt."""
+    from lib import chat as chatmod
+    seen = {}
+    monkeypatch.setattr(chatmod, "web_search", lambda q, n: [
+        {"title": "Katokkon juara pedas", "url": "https://x.id/k", "snippet": "Katokkon sangat pedas, SHU tinggi"}])
+    monkeypatch.setattr(chatmod.documents, "search", lambda q, top_k=4: [
+        {"filename": "a.pdf", "page": 1, "text": "x " * 2000, "similarity": 1.0},
+        {"filename": "a.pdf", "page": 1, "text": "y " * 2000, "similarity": 0.9},
+        {"filename": "a.pdf", "page": 2, "text": "z " * 2000, "similarity": 0.8}])
+    monkeypatch.setattr(chatmod, "_sufficient", lambda q, c: False)
+    real = chatmod.llm_chat
+
+    def spy(messages, **kw):
+        seen["prompt"] = messages[-1]["content"]
+        return real(messages, **kw)
+    monkeypatch.setattr(chatmod, "llm_chat", spy)
+    final = list(chatmod.run("Bagaimana budidaya cabai keriting?"))[-1]
+    assert "SHU tinggi" in seen["prompt"]
+    refs = final["answer"].split("---")[-1]
+    assert refs.count("a.pdf, halaman 1") == 1 and "a.pdf, halaman 2" in refs
