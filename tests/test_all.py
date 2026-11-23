@@ -252,3 +252,29 @@ def test_llm_model_fallback(monkeypatch):
     calls.clear()
     core.llm_chat([{"role": "user", "content": "hi"}], fast=True)
     assert calls == ["openai/gpt-oss-120b"]  # dead models are skipped afterwards
+
+
+def test_json_validate_retry(monkeypatch):
+    from lib import core
+
+    class R:
+        def __init__(self, code, text, content=None):
+            self.status_code, self.text, self._c = code, text, content
+
+        def json(self):
+            return {"choices": [{"message": {"content": self._c}}]}
+
+    seen = []
+
+    def fake_post(model, messages, json_mode, *a):
+        seen.append(json_mode)
+        if json_mode:
+            return R(400, '{"error":{"code":"json_validate_failed"}}')
+        return R(200, "ok", 'Tentu: {"relevant": true}')
+
+    monkeypatch.setenv("CABAI_FAKE_LLM", "0")
+    monkeypatch.setattr(core, "LLM_API_KEY", "x")
+    monkeypatch.setattr(core, "_post", fake_post)
+    monkeypatch.setattr(core, "_dead_models", set())
+    assert core.llm_json([{"role": "user", "content": "x"}], fast=True) == {"relevant": True}
+    assert seen == [True, False]

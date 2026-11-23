@@ -36,6 +36,18 @@ def health():
             "drive_configured": drive.configured(), "admin_password_set": bool(ADMIN_PASSWORD)}
 
 
+@app.get("/api/llm-check")
+def llm_check():
+    """One tiny LLM call: shows which model actually answers for this API key."""
+    from lib import core
+    try:
+        out = core.llm_json([{"role": "user", "content": 'Balas JSON {"ok": true}'}], fast=True)
+        return {"ok": bool(out.get("ok")), "model_used": core.LAST_MODEL_USED,
+                "unavailable_models": sorted(core._dead_models)}
+    except core.LLMError as e:
+        return {"ok": False, "error": str(e), "unavailable_models": sorted(core._dead_models)}
+
+
 @app.post("/api/auth/check")
 def auth_check(_=Depends(require_admin)):
     return {"ok": True}

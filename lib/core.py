@@ -64,10 +64,14 @@ def llm_available() -> bool:
 FALLBACK_MODELS = [m for m in os.getenv(
     "LLM_FALLBACK_MODELS", "llama-3.3-70b-versatile,openai/gpt-oss-120b,openai/gpt-oss-20b").split(",") if m]
 _dead_models: set[str] = set()
+LAST_MODEL_USED = None
 
 
 def _post(model, messages, json_mode, temperature, max_tokens):
     body = {"model": model, "messages": messages, "temperature": temperature, "max_tokens": max_tokens}
+    if "gpt-oss" in model:  # reasoning models: keep thinking short so the answer fits
+        body["reasoning_effort"] = "low"
+        body["max_tokens"] = max_tokens + 1024
     if json_mode:
         body["response_format"] = {"type": "json_object"}
     return httpx.post(f"{LLM_BASE_URL}/chat/completions",
@@ -92,13 +96,18 @@ def llm_chat(messages, *, fast=False, json_mode=False, temperature=0.2, max_toke
             _dead_models.add(model)
             last = f"{model}: {r.text[:200]}"
             continue
+        if r.status_code == 400 and json_mode and "json_validate_failed" in r.text:
+            r = _post(model, messages, False, temperature, max_tokens)  # retry, parse JSON ourselves
         if r.status_code >= 400:
             raise LLMError(f"LLM error {r.status_code}: {r.text[:300]}")
+        global LAST_MODEL_USED
+        LAST_MODEL_USED = model
         return r.json()["choices"][0]["message"]["content"] or ""
     raise LLMError(f"Semua model LLM ditolak ({last})")
 
 
 def llm_json(messages, **kw) -> dict:
+    kw["max_tokens"] = max(kw.get("max_tokens", 0), 400)
     raw = llm_chat(messages, json_mode=True, **kw)
     try:
         return json.loads(raw)
