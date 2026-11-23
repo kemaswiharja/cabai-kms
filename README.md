@@ -18,7 +18,7 @@ mengikuti kontrak API yang sama.
 | Kebutuhan | Dipakai | Biaya |
 |---|---|---|
 | Hosting | Vercel Hobby | gratis |
-| LLM | **Llama 3.3 70B** + Llama 3.1 8B (open-weight, Meta) lewat Groq | tier gratis |
+| LLM | **GPT-OSS 120B** (jawaban) + **GPT-OSS 20B** (langkah kecil), open-weight Apache 2.0, lewat Groq; otomatis pindah model bila satu tidak tersedia/kuota habis | tier gratis |
 | Database | MongoDB Atlas M0 (512 MB) | gratis |
 | Pencarian dokumen | BM25 (tanpa API embedding) | — |
 | Web search | DuckDuckGo (`ddgs`), atau Tavily bila `TAVILY_API_KEY` diisi | gratis |
@@ -99,8 +99,10 @@ karakter `Ð` yang seharusnya tanda pisah (`10Ð15 cm`), individu ganda beda hur
   tipe data range, object/data property). Reasoner HermiT penuh butuh Java, yang tidak ada di Vercel.
 - **Ontologi default** disimpan permanen di MongoDB (versi asli hilang setiap redeploy).
 - Batas unggah **±4,4 MB per file** (batas Vercel); PDF hasil scan perlu OCR dulu.
-- Batas tier gratis Groq untuk Llama 3.3 70B ±100 ribu token/hari (cukup untuk puluhan pertanyaan/hari).
-  Untuk pemakaian kelas besar, pakai OpenRouter/Together berbayar murah atau server lab sendiri.
+- Tier gratis Groq: GPT-OSS 120B dan 20B masing-masing ±8K token/menit dan ±200K token/hari (kuota terpisah per model).
+  Satu pertanyaan memakai beberapa ribu token, jadi cukup untuk puluhan pertanyaan/hari. Bila kena batas per menit,
+  aplikasi menunggu sebentar atau pindah model. Cek kuota di `/api/llm-check` dan console.groq.com/settings/limits.
+  Untuk satu kelas, naik ke paket Developer Groq (bayar per token) atau server lab sendiri.
 
 ## Pengembangan lokal
 

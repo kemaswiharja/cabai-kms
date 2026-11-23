@@ -247,8 +247,10 @@ def test_llm_model_fallback(monkeypatch):
     monkeypatch.setattr(core, "LLM_API_KEY", "x")
     monkeypatch.setattr(core, "_post", fake_post)
     monkeypatch.setattr(core, "_dead_models", set())
+    monkeypatch.setattr(core, "LLM_MODEL", "llama-3.3-70b-versatile")  # current Vercel env value
+    monkeypatch.setattr(core, "LLM_FAST_MODEL", "llama-3.1-8b-instant")
     assert core.llm_chat([{"role": "user", "content": "hi"}], fast=True) == "jawaban dari openai/gpt-oss-120b"
-    assert calls == ["llama-3.1-8b-instant", "llama-3.3-70b-versatile", "openai/gpt-oss-120b"]
+    assert calls == ["llama-3.1-8b-instant", "openai/gpt-oss-120b"]
     calls.clear()
     core.llm_chat([{"role": "user", "content": "hi"}], fast=True)
     assert calls == ["openai/gpt-oss-120b"]  # dead models are skipped afterwards
@@ -278,3 +280,38 @@ def test_json_validate_retry(monkeypatch):
     monkeypatch.setattr(core, "_dead_models", set())
     assert core.llm_json([{"role": "user", "content": "x"}], fast=True) == {"relevant": True}
     assert seen == [True, False]
+
+
+def test_rate_limit_wait_then_next_model(monkeypatch):
+    from lib import core
+
+    class R:
+        def __init__(self, code, text="", content=None, headers=None):
+            self.status_code, self.text, self._c, self.headers = code, text, content, headers or {}
+
+        def json(self):
+            return {"choices": [{"message": {"content": self._c}}]}
+
+    calls, sleeps = [], []
+
+    def fake_post(model, *a):
+        calls.append(model)
+        if model == "openai/gpt-oss-20b":
+            return R(429, "rate_limit_exceeded", headers={"retry-after": "2"})
+        return R(200, "ok", f"dari {model}")
+
+    monkeypatch.setenv("CABAI_FAKE_LLM", "0")
+    monkeypatch.setattr(core, "LLM_API_KEY", "x")
+    monkeypatch.setattr(core, "LLM_FAST_MODEL", "openai/gpt-oss-20b")
+    monkeypatch.setattr(core, "_post", fake_post)
+    monkeypatch.setattr(core, "_dead_models", set())
+    monkeypatch.setattr(core.time, "sleep", lambda s: sleeps.append(s))
+    assert core.llm_chat([{"role": "user", "content": "x"}], fast=True) == "dari openai/gpt-oss-120b"
+    assert calls == ["openai/gpt-oss-20b", "openai/gpt-oss-20b", "openai/gpt-oss-120b"] and sleeps == [2.0]
+
+    def all_limited(model, *a):
+        return R(429, "rate_limit_exceeded", headers={"retry-after": "60"})
+    monkeypatch.setattr(core, "_post", all_limited)
+    import pytest
+    with pytest.raises(core.LLMError, match="Kuota gratis"):
+        core.llm_chat([{"role": "user", "content": "x"}])

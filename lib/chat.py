@@ -48,7 +48,7 @@ def run(question: str):
         relevant = bool(rel.get("relevant", True))
     except LLMError as e:
         yield _ev("1", "complete", "LLM tidak tersedia")
-        yield {"step": "final", "answer": f"Layanan LLM belum siap: {e}", "source": "error", "images": []}
+        yield {"step": "final", "answer": f"Maaf, layanan LLM sedang tidak bisa dipakai. {e}", "source": "error", "images": []}
         return
     yield _ev("1", "complete", "Relevant ✓" if relevant else "Not about chili")
     if not relevant:
@@ -79,8 +79,8 @@ def run(question: str):
                     "Daftar atribut kosong berarti semua atribut. Jika pertanyaan umum (budidaya, resep) dan tidak "
                     "menyebut spesimen, use_database=false kecuali pertanyaan meminta perbandingan/daftar spesimen."},
                 {"role": "user", "content": json.dumps({
-                    "pertanyaan": question, "spesimen_tersedia": names[:400],
-                    "atribut_tersedia": attrs[:300], "terdeteksi_di_pertanyaan": mentioned})}],
+                    "pertanyaan": question, "spesimen_tersedia": names[:250],
+                    "atribut_tersedia": attrs[:150], "terdeteksi_di_pertanyaan": mentioned})}],
                 fast=True, max_tokens=400)
         except LLMError:
             pass
@@ -106,20 +106,22 @@ def run(question: str):
     db_enough = False
     if rows:
         lines = [f"- {r['name']}: " + "; ".join(f"{k}: {v}" for k, v in r["attributes"].items()) for r in rows]
-        block = "\n".join(lines)[:9000]
+        block = "\n".join(lines)[:6000]
         refs.append("Database spesimen Cabai (MongoDB): " + ", ".join(r["name"] for r in rows[:15]))
         context_blocks.append(f"[{len(refs)}] DATABASE SPESIMEN\n{block}")
         used.append("mongodb")
         for r in rows:
             images += r["images"][:3]
-        db_enough = _sufficient(question, block)
+        # Save an LLM call when the planner picked concrete DB attributes for the named specimens.
+        found_all = bool(mentioned) and {r["name"].lower() for r in rows} >= {m.lower() for m in mentioned}
+        db_enough = (found_all and bool(wanted_attrs)) or _sufficient(question, block)
     yield _ev("5", "complete", "Sufficient ✓" if db_enough else ("Need more sources" if rows else "No database data"))
 
     # 5a/5b ─ documents
     doc_enough = db_enough
     if not db_enough:
         yield _ev("5a", "processing", "Querying documents...")
-        hits = documents.search(question, top_k=5)
+        hits = documents.search(question, top_k=4)
         hits = [h for h in hits if h["similarity"] >= 0.35]
         yield _ev("5a", "complete", f"{len(hits)} passage(s)")
         yield _ev("5b", "processing", "Evaluating documents...")
@@ -136,7 +138,7 @@ def run(question: str):
     # 6 ─ web search (last fallback)
     if not doc_enough:
         yield _ev("6", "processing", "Web search...")
-        results = web_search(f"cabai {question}", 5)
+        results = web_search(f"cabai {question}", 4)
         for w in results:
             refs.append(f"{w['title']} — {w['url']}")
             context_blocks.append(f"[{len(refs)}] WEB {w['title']}\n{w['snippet']}")
@@ -158,8 +160,8 @@ def run(question: str):
                     "(tabel |, **tebal**, # judul) karena tampilan tidak merendernya; pakai paragraf pendek dan "
                     "daftar dengan tanda '- '. Untuk perbandingan, tulis satu baris per aspek, mis. "
                     "'- Tinggi tanaman: Katokkon 60–155 cm; Kopay 60–89 cm [1]'."},
-                {"role": "user", "content": "KONTEKS:\n" + "\n\n".join(context_blocks)[:24000]
-                                            + f"\n\nPERTANYAAN: {question}"}], max_tokens=1200)
+                {"role": "user", "content": "KONTEKS:\n" + "\n\n".join(context_blocks)[:12000]
+                                            + f"\n\nPERTANYAAN: {question}"}], max_tokens=900)
         except LLMError as e:
             answer = f"Gagal menyusun jawaban: {e}"
     answer += "\n\n---\n" + "\n".join(f"[{i}] {r}" for i, r in enumerate(refs, 1))
@@ -176,7 +178,7 @@ def _sufficient(question, context) -> bool:
         r = llm_json([
             {"role": "system", "content": 'Apakah konteks berikut sudah cukup untuk menjawab pertanyaan secara '
                                           'lengkap? Balas JSON {"sufficient": true/false}.'},
-            {"role": "user", "content": f"PERTANYAAN: {question}\n\nKONTEKS:\n{context[:8000]}"}],
+            {"role": "user", "content": f"PERTANYAAN: {question}\n\nKONTEKS:\n{context[:4000]}"}],
             fast=True, max_tokens=20)
         return bool(r.get("sufficient"))
     except LLMError:

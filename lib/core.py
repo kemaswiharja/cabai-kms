@@ -3,6 +3,7 @@ import json
 import math
 import os
 import re
+import time
 from collections import Counter
 from functools import lru_cache
 
@@ -18,8 +19,8 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
 # Default: Groq (free tier) running Meta Llama 3.3 70B.
 LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://api.groq.com/openai/v1").rstrip("/")
 LLM_API_KEY = os.getenv("LLM_API_KEY", "")
-LLM_MODEL = os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
-LLM_FAST_MODEL = os.getenv("LLM_FAST_MODEL", "llama-3.1-8b-instant")
+LLM_MODEL = os.getenv("LLM_MODEL", "openai/gpt-oss-120b")
+LLM_FAST_MODEL = os.getenv("LLM_FAST_MODEL", "openai/gpt-oss-20b")
 
 
 # ── MongoDB ───────────────────────────────────────────────────────────────────
@@ -62,7 +63,7 @@ def llm_available() -> bool:
 
 # Open-weight models tried in order when a model is unavailable for the account.
 FALLBACK_MODELS = [m for m in os.getenv(
-    "LLM_FALLBACK_MODELS", "llama-3.3-70b-versatile,openai/gpt-oss-120b,openai/gpt-oss-20b").split(",") if m]
+    "LLM_FALLBACK_MODELS", "openai/gpt-oss-120b,openai/gpt-oss-20b,llama-3.3-70b-versatile").split(",") if m]
 _dead_models: set[str] = set()
 LAST_MODEL_USED = None
 
@@ -78,6 +79,16 @@ def _post(model, messages, json_mode, temperature, max_tokens):
                       headers={"Authorization": f"Bearer {LLM_API_KEY}"}, json=body, timeout=45)
 
 
+MAX_RATE_WAIT = 15  # seconds we may sleep on 429s within one call (Vercel limit is 60 s)
+
+
+def _retry_after(r) -> float:
+    try:
+        return float((getattr(r, "headers", None) or {}).get("retry-after", 5))
+    except (TypeError, ValueError):
+        return 5.0
+
+
 def llm_chat(messages, *, fast=False, json_mode=False, temperature=0.2, max_tokens=1500) -> str:
     if os.getenv("CABAI_FAKE_LLM") == "1":  # test hook
         from tests import fake_llm  # type: ignore
@@ -85,24 +96,37 @@ def llm_chat(messages, *, fast=False, json_mode=False, temperature=0.2, max_toke
     if not llm_available():
         raise LLMError("LLM_API_KEY belum diset (lihat README).")
     first = LLM_FAST_MODEL if fast else LLM_MODEL
-    chain = [m for m in dict.fromkeys([first, LLM_MODEL, *FALLBACK_MODELS]) if m not in _dead_models]
-    last = "tidak ada model yang tersedia"
+    order = [first, *FALLBACK_MODELS, LLM_MODEL] if fast else [first, *FALLBACK_MODELS]
+    chain = [m for m in dict.fromkeys(order) if m not in _dead_models]
+    waited, last, rate_limited = 0.0, "tidak ada model yang tersedia", False
     for model in chain:
-        try:
-            r = _post(model, messages, json_mode, temperature, max_tokens)
-        except httpx.HTTPError as e:
-            raise LLMError(f"Tidak bisa menghubungi LLM: {e}") from e
-        if r.status_code == 404 or "model_not_found" in r.text or "model_decommissioned" in r.text:
-            _dead_models.add(model)
-            last = f"{model}: {r.text[:200]}"
-            continue
-        if r.status_code == 400 and json_mode and "json_validate_failed" in r.text:
-            r = _post(model, messages, False, temperature, max_tokens)  # retry, parse JSON ourselves
-        if r.status_code >= 400:
-            raise LLMError(f"LLM error {r.status_code}: {r.text[:300]}")
-        global LAST_MODEL_USED
-        LAST_MODEL_USED = model
-        return r.json()["choices"][0]["message"]["content"] or ""
+        for _attempt in range(2):
+            try:
+                r = _post(model, messages, json_mode, temperature, max_tokens)
+            except httpx.HTTPError as e:
+                raise LLMError(f"Tidak bisa menghubungi LLM: {e}") from e
+            if r.status_code == 429:
+                # Free-tier quotas are per model: wait briefly once, else try the next model.
+                ra = _retry_after(r)
+                if _attempt == 0 and ra <= 8 and waited + ra <= MAX_RATE_WAIT:
+                    time.sleep(ra)
+                    waited += ra
+                    continue
+                rate_limited, last = True, f"{model}: batas kuota (coba lagi ±{int(ra)} detik)"
+                break
+            if r.status_code == 404 or "model_not_found" in r.text or "model_decommissioned" in r.text:
+                _dead_models.add(model)
+                last = f"{model}: {r.text[:200]}"
+                break
+            if r.status_code == 400 and json_mode and "json_validate_failed" in r.text:
+                r = _post(model, messages, False, temperature, max_tokens)  # retry, parse JSON ourselves
+            if r.status_code >= 400:
+                raise LLMError(f"LLM error {r.status_code}: {r.text[:300]}")
+            global LAST_MODEL_USED
+            LAST_MODEL_USED = model
+            return r.json()["choices"][0]["message"]["content"] or ""
+    if rate_limited:
+        raise LLMError(f"Kuota gratis LLM (Groq) sedang penuh — {last}. Silakan coba lagi sebentar lagi.")
     raise LLMError(f"Semua model LLM ditolak ({last})")
 
 
