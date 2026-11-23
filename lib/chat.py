@@ -75,7 +75,9 @@ def run(question: str):
                 {"role": "system", "content":
                     "Anda merencanakan pencarian di database spesimen cabai. Pilih spesimen dan atribut yang relevan "
                     "HANYA dari daftar yang diberikan. Balas JSON: "
-                    '{"use_database": bool, "specimens": [nama persis], "attributes": [atribut persis]}. '
+                    '{"use_database": bool, "specimens": [nama persis], "attributes": [atribut persis], '
+                    '"covers_all": bool}. covers_all=true HANYA jika SEMUA informasi yang ditanyakan ada di '
+                    'atribut terpilih (mis. pertanyaan soal kepedasan tapi tidak ada atribut kepedasan → false). '
                     "Daftar atribut kosong berarti semua atribut. Jika pertanyaan umum (budidaya, resep) dan tidak "
                     "menyebut spesimen, use_database=false kecuali pertanyaan meminta perbandingan/daftar spesimen."},
                 {"role": "user", "content": json.dumps({
@@ -114,7 +116,8 @@ def run(question: str):
             images += r["images"][:3]
         # Save an LLM call when the planner picked concrete DB attributes for the named specimens.
         found_all = bool(mentioned) and {r["name"].lower() for r in rows} >= {m.lower() for m in mentioned}
-        db_enough = (found_all and bool(wanted_attrs)) or _sufficient(question, block)
+        db_enough = (found_all and bool(wanted_attrs) and plan.get("covers_all") is True) \
+            or _sufficient(question, block)
     yield _ev("5", "complete", "Sufficient ✓" if db_enough else ("Need more sources" if rows else "No database data"))
 
     # 5a/5b ─ documents

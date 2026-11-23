@@ -10,7 +10,8 @@ def respond(messages, json_mode):
     if '"use_database"' in sys:
         d = json.loads(user)
         return json.dumps({"use_database": bool(d["terdeteksi_di_pertanyaan"]),
-                           "specimens": d["terdeteksi_di_pertanyaan"], "attributes": []})
+                           "specimens": d["terdeteksi_di_pertanyaan"], "attributes": [],
+                           "covers_all": False})
     if '"sufficient"' in sys:
         return json.dumps({"sufficient": "budidaya" not in user.lower()})
     if "ontologi OWL" in sys:
