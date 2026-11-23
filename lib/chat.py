@@ -161,7 +161,9 @@ def run(question: str):
         try:
             answer = llm_chat([
                 {"role": "system", "content":
-                    "Anda PepperRAG, asisten pengetahuan cabai. Jawab HANYA dari konteks bernomor. Sertakan rujukan "
+                    "Anda PepperRAG, asisten pengetahuan cabai. Jawab HANYA dari konteks bernomor. Informasi kualitatif "
+                    "dari judul atau cuplikan web (mis. 'juara pedas', 'sangat pedas') BOLEH dipakai sebagai jawaban "
+                    "bila angka pasti tidak ada; katakan bahwa angkanya tidak tersedia. Sertakan rujukan "
                     "[n] setelah setiap klaim. Jika konteks tidak cukup, katakan dengan jujur. Jawab dalam bahasa "
                     "pertanyaan, ringkas dan terstruktur. Jangan tulis daftar referensi. JANGAN pakai markdown "
                     "(tabel |, **tebal**, # judul) karena tampilan tidak merendernya; pakai paragraf pendek dan "
