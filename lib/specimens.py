@@ -127,3 +127,23 @@ def match_image(filename: str, specimen_names):
             if n and (" " + n + " ") in norm:
                 return name
     return None
+
+
+def upsert(db, specimens, source):
+    """Merge specimens into MongoDB (keeps attributes/images from other sources)."""
+    import datetime as dt
+    n_new = 0
+    for s in specimens:
+        key = s["name"].strip().lower()
+        if not key:
+            continue
+        attrs = {f"attributes.{safe_key(k)}": v for k, v in s["attributes"].items() if v}
+        res = db.specimens.update_one(
+            {"name_lower": key},
+            {"$set": {"name": s["name"].strip(), "name_lower": key, **attrs,
+                      "updated_at": dt.datetime.now(dt.timezone.utc)},
+             "$addToSet": {"sources": source},
+             "$setOnInsert": {"images": []}},
+            upsert=True)
+        n_new += 1 if res.upserted_id else 0
+    return n_new

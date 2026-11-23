@@ -205,3 +205,21 @@ def test_real_excel_into_real_ontology():
         assert f"'{col}' → {prop}" in text, (col, text)
     # only genuinely new characters become new properties
     assert stats["new_properties_created"] <= 3, [l for l in logs if l.startswith("+")]
+
+
+def test_seed_and_updater_feed_chatbot_db():
+    from lib.core import get_db
+    db = get_db()
+    db.specimens.delete_many({})
+    db.ontology_store.delete_many({})
+    assert ontology.seed_specimens_if_empty() >= 15
+    k = db.specimens.find_one({"name_lower": "katokkon"})
+    assert k and any("tinggi" in a.lower() for a in k["attributes"]), k
+    assert ontology.seed_specimens_if_empty() == 0  # only once
+    xlsx = open(os.path.join(os.path.dirname(__file__), "sample_karakter_tahap2.xlsx"), "rb").read()
+    ev = sse_events(c.post("/api/updater/update-ontology", headers=ADMIN, data={"enable_recommendations": "false"},
+                           files={"csv_file": ("tahap2.xlsx", xlsx)}).text)
+    assert any("7 spesimen juga disimpan" in e.get("msg", "") for e in ev), [e.get("msg") for e in ev]
+    assert db.specimens.find_one({"name_lower": "cakra putih"})["attributes"]["tinggi tanaman"] == "27 - 99 cm"
+    ans = sse_events(c.post("/api/chat", json={"question": "Berapa tinggi tanaman cabai Madiun?"}).text)[-1]
+    assert ans["source"].startswith("mongodb"), ans

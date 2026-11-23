@@ -351,6 +351,35 @@ def default_status():
             "updated_at": d["updated_at"].isoformat() if d and d.get("updated_at") else None}
 
 
+# ── ontology → specimen collection ───────────────────────────────────────────
+def specimens_from_graph(g):
+    """Individuals of the main chili class as {name, attributes} (for the chatbot DB)."""
+    cls = [c for c in classes(g) if CHILI_CLASS.match(local(c))]
+    out = []
+    for i in individuals(g):
+        if cls and not any((i, RDF.type, c) in g for c in cls):
+            continue
+        name = str(next(g.objects(i, RDFS.label), "") or local(i)).replace("_", " ")
+        attrs = {}
+        for p, v in g.predicate_objects(i):
+            if p in (RDF.type, RDFS.label, RDFS.comment):
+                continue
+            key = str(next(g.objects(p, RDFS.label), "") or local(p))
+            val = str(next(g.objects(v, RDFS.label), "") or local(v)) if isinstance(v, URIRef) else str(v)
+            attrs[key] = f"{attrs[key]}; {val}" if key in attrs else val
+        out.append({"name": name, "attributes": attrs})
+    return out
+
+
+def seed_specimens_if_empty():
+    """First run: fill the chatbot's specimen DB from the default ontology."""
+    from .specimens import upsert
+    db = get_db()
+    if db.specimens.estimated_document_count() > 0:
+        return 0
+    return upsert(db, specimens_from_graph(load_graph(default_owl())), "ontologi default")
+
+
 # ── updater (CSV → OWL individuals) ───────────────────────────────────────────
 CHILI_CLASS = re.compile(r"^(cabai|cabe|pepper|chili|chilli|capsicum|spesimen|specimen)", re.I)
 

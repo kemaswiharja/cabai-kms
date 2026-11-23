@@ -162,6 +162,10 @@ async def updater_run(csv_file: UploadFile = File(...), owl_file: UploadFile | N
             if mode == "default":
                 ontology.save_default(out)
                 yield sse({"type": "log", "msg": "💾 Ontologi default disimpan di MongoDB"})
+                from lib.core import get_db
+                from lib.specimens import upsert
+                n = upsert(get_db(), specimens, f"Ontology Updater: {csv_file.filename}")
+                yield sse({"type": "log", "msg": f"💾 {len(specimens)} spesimen juga disimpan ke database chatbot ({n} baru)"})
             yield sse({"type": "done", "stats": stats, "recommendations": recs})
             import base64
             b64 = base64.b64encode(out.encode()).decode()

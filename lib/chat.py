@@ -57,6 +57,11 @@ def run(question: str):
 
     # 2 ─ analyse database
     yield _ev("2", "processing", "Analyzing database...")
+    try:
+        from .ontology import seed_specimens_if_empty
+        seed_specimens_if_empty()
+    except Exception:  # noqa: BLE001 — seeding is best-effort
+        pass
     names, attrs = _catalog(db)
     mentioned = _mentioned(question, names)
     yield _ev("2", "complete", f"{len(names)} specimens · {len(attrs)} attributes")
