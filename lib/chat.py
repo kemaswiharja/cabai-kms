@@ -185,10 +185,12 @@ def run(question: str):
 def _sufficient(question, context) -> bool:
     try:
         r = llm_json([
-            {"role": "system", "content": 'Apakah konteks berikut sudah cukup untuk menjawab pertanyaan secara '
-                                          'lengkap? Balas JSON {"sufficient": true/false}.'},
+            {"role": "system", "content": 'Pecah pertanyaan menjadi bagian-bagian informasi yang diminta. '
+                                          'sufficient=true HANYA jika SETIAP bagian dijawab secara eksplisit oleh '
+                                          'konteks; jika ada satu bagian saja yang tidak disebut, false. '
+                                          'Balas JSON {"missing": [bagian yang tidak ada], "sufficient": true/false}.'},
             {"role": "user", "content": f"PERTANYAAN: {question}\n\nKONTEKS:\n{context[:4000]}"}],
             fast=True, max_tokens=20)
-        return bool(r.get("sufficient"))
+        return bool(r.get("sufficient")) and not r.get("missing")
     except LLMError:
         return True
